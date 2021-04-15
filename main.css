@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid {
+  height: 1000px;
+  width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  border: 1px solid green;
+}
+
+.grid div {
+  width: 10%;
+  height: 10%;
+  border: 1px solid greenyellow;
+}
