@@ -2,13 +2,67 @@ const elements = {
   grid: document.querySelector('.grid'),
 }
 
-console.log(elements.grid)
+// This can be changed for different sized grids
+const width = 10
+const emptyTiles = []
+// Mines will be set to width (10 in this build)
+const mines = []
+let numberOfClicks = 0
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < width ** 2; i++) {
   const div = document.createElement('div')
   elements.grid.appendChild(div)
-  div.innerHTML = i
+  div.id = i
+
+  // div.innerHTML = i - Debugging
+
+  // dynamically size the grids using the width
+  div.style.width = `${100 / width}%`
+  div.style.height = `${100 / width}%`
+
+  // when a tile is clicked, run the flippedTile function
+  div.addEventListener('click', (e) => {
+    flippedTile(e)
+  })
 }
+
+const flippedTile = (e) => {
+  // check whether first click
+  numberOfClicks++
+  if (numberOfClicks === 1) {
+    console.log('First Click')
+    
+    // set the current tile to 0
+    e.target.innerHTML = 0
+    const currentTileIndex = Number(e.target.id)   // Make sure this is not a string 
+    // generate the mines and surrounding numbers
+    console.log(generateMines(currentTileIndex))
+    // start sweeper function
+  }
+
+  // console.log(e.target.innerHTML) - Debugging
+}
+
+const generateMines = (currentTileIndex) => {
+  console.log('Current tile index is: ' + currentTileIndex)
+  while (mines.length < width) {
+    const randomIndex = Math.floor(Math.random() * (width ** 2))
+    if (!mines.includes(randomIndex) && randomIndex !== currentTileIndex) {
+      mines.push(randomIndex)
+    }
+  }
+  return mines
+}
+
+
+// const sweeper = () => {
+
+// }
+
+// if (player's first click) {
+//   get the index of the current tile
+//   tile = 0
+// }
 
 /* 
 MINESWEEPER
