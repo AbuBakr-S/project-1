@@ -4,7 +4,7 @@ const elements = {
 
 // This can be changed for different sized grids
 const width = 10
-const emptyTiles = []
+//const emptyTiles = []
 // Mines will be set to width (10 in this build)
 const mines = []
 let numberOfClicks = 0
@@ -29,16 +29,29 @@ for (let i = 0; i < width ** 2; i++) {
 const flippedTile = (e) => {
   // check whether first click
   numberOfClicks++
+  let currentTileIndex
   if (numberOfClicks === 1) {
     console.log('First Click')
     
     // set the current tile to 0
     e.target.innerHTML = 0
-    const currentTileIndex = Number(e.target.id)   // Make sure this is not a string 
-    // generate the mines and surrounding numbers
+    currentTileIndex = Number(e.target.id)   // Make sure this is not a string 
+
+    // generate the mines
     console.log(generateMines(currentTileIndex))
+
+    // add mines to the grid
+    document.querySelectorAll('.grid div').forEach(div => {
+      if (mines.includes(Number(div.id))) {
+        div.innerHTML = '*'
+        console.log('mines array is ' + mines)
+      }
+    })
+
     // start sweeper function
   }
+
+  // console.log(sweeper(currentTileIndex))
 
   // console.log(e.target.innerHTML) - Debugging
 }
@@ -55,14 +68,30 @@ const generateMines = (currentTileIndex) => {
 }
 
 
-// const sweeper = () => {
+const sweeper = (currentTileIndex) => {
+  /*
+  ### CHECK THE TILES ALONG THE EDGES AND CORNERS ###
+    * If the currentTileIndex < width, then it's in the first row
+      # Check currentTileIndex: -1, +1, +10, +9, +11
+      * And If width % width === 0, then it's in the top, left corner
+        # Check currentTileIndex: + 1, +10, +11 
+      * And If width % width - 1 === 0, then it's in the top right corner
+        # Check currentIndexTile: -1, +10, +9
 
-// }
+    * If the currentTileIndex >= width ** 2 - width, the it's in the last row
+      # Check currentTileIndex: -1, +1, -10, -9, -11
+      * And If width % width === 0, then it's in the bottom, left corner
+        # Check currentTileIndex: -10, -9, +1
+      * And If width % width - 1 === 0, then it's in the bottom right corner
+        # Check currentTileIndex: -1, -10, -9
 
-// if (player's first click) {
-//   get the index of the current tile
-//   tile = 0
-// }
+    * If width % width === 0, then it's in the first column
+      # Check currentTileIndex: +1, -10, +10, -9, +11  
+    * If width % width - 1 === 0, then it's in the last column
+      # Check currentTileIndex: -10, +10, -1, -11, +11
+  */
+}
+
 
 /* 
 MINESWEEPER
