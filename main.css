@@ -40,5 +40,5 @@ body {
 }
 
 .mine {
-  background-color: black !important;
+  background-color: rgba(255, 0, 0, 1) !important;
 }

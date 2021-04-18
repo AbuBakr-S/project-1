@@ -36,8 +36,9 @@ const flippedTile = (e) => {
   if (numberOfClicks === 1) {
     console.log('First Click')
     
-    // set the current tile to 0
+    // set the current tile to 0 and white background
     e.target.innerHTML = 0
+    e.target.style.backgroundColor='white'
     currentTileIndex = Number(e.target.id)   // Make sure this is not a string 
 
     // generate the mines
@@ -51,45 +52,80 @@ const flippedTile = (e) => {
       }
     })
 
-    // sweep tiles around the mines
+    //sweep tiles around the mines
     const divElements = document.querySelectorAll('.grid div')
     const divArray = Array.from(divElements)
     mines.forEach(tile => {
 
-      if (divArray[tile - width]) {
+      // let up = 0
+      // let upRight = 0
+      // let right = 0
+      // let downRight = 0
+      // let down = 0
+      // let downLeft = 0
+      // let left = 0
+      // let upLeft = 0
+
+      // up (not first row, using undefined falsy value in if block)
+      if (divArray[tile - width] && !divArray[tile - width].classList.contains('mine')) {
         divArray[tile - width].innerHTML += 1
       }
     
-      if (divArray[tile - width + 1]) {
+      // up right (not last column) (not first row, using undefined falsy value in if block)
+      if (divArray[tile - width + 1] && tile % width !== 9 && !divArray[tile - width + 1].classList.contains('mine')) {
         divArray[tile - width + 1].innerHTML += 1
       }
-    
-      if (divArray[tile + 1]) {
+
+      // right (not last column)
+      if (divArray[tile + 1] && tile % width !== 9 && !divArray[tile + 1].classList.contains('mine')) {
         divArray[tile + 1].innerHTML += 1
       }
       
-      if (divArray[tile + width + 1]) {
+      // down right (not last column) (not last row, using undefined falsy value in if block)
+      if (divArray[tile + width + 1] && tile % width !== 9 && !divArray[tile + width + 1].classList.contains('mine')) {
         divArray[tile + width + 1].innerHTML += 1
       }
     
-      if (divArray[tile + width]) {
+      // down (not last row, using undefined falsy value in if block)
+      if (divArray[tile + width] && !divArray[tile + width].classList.contains('mine')) {
         divArray[tile + width].innerHTML += 1
       }
     
-      if (divArray[tile + width - 1]) {
+      // down left (not first column) (not last row, using undefined falsy value in if block)
+      if (divArray[tile + width - 1] && tile % width !== 0 && !divArray[tile + width - 1].classList.contains('mine')) {
         divArray[tile + width - 1].innerHTML += 1
       }
     
-      if (divArray[tile - 1]) {
+      // left (mpt forst column)
+      if (divArray[tile - 1] && tile % width !== 0 && !divArray[tile - 1].classList.contains('mine')) {
         divArray[tile - 1].innerHTML += 1
       }
       
-      if (divArray[tile - width - 1]) {
+      // up left (not first column) (not first row, using undefined falsy value in if block)
+      if (divArray[tile - width - 1] && tile % width !== 0 && !divArray[tile - width - 1].classList.contains('mine')) {
         divArray[tile - width - 1].innerHTML += 1
       }
+
+      // if (
+      //   divArray[tile - width] &&
+      //   divArray[tile - width + 1] &&
+      //   divArray[tile + 1] &&
+      //   divArray[tile + width + 1] &&
+      //   divArray[tile + width] &&
+      //   divArray[tile + width - 1] &&
+      //   divArray[tile - 1] &&
+      //   divArray[tile - width - 1]
+      // ) {
+      //   divArray[tile - width].innerHTML = up
+      //   divArray[tile - width + 1].innerHTML = upRight
+      //   divArray[tile + 1].innerHTML = right
+      //   divArray[tile + width + 1].innerHTML = downRight
+      //   divArray[tile + width].innerHTML = down
+      //   divArray[tile + width - 1].innerHTML = downLeft
+      //   divArray[tile - 1].innerHTML = left
+      //   divArray[tile - width - 1].innerHTML = upLeft
+      // }
     })
-
-
   }
   // console.log(sweeper(currentTileIndex))
 
@@ -113,10 +149,10 @@ const generateMines = currentTileIndex => {
 
 const eightTileSweep = currentTileIndex => {
 
-  const divElements = document.querySelectorAll('.grid div')
-  const divArray = Array.from(divElements)
+  const divs = document.querySelectorAll('.grid div')
+  const divArray = Array.from(divs)
 
-  // grab the indexes of all the tiles surrounding the currentTileIndex
+  //grab the indexes of all the tiles surrounding the currentTileIndex
   if (divArray[currentTileIndex - width]) {
     eightTilesArray.push(Number(divArray[currentTileIndex - width].id))
   }
@@ -148,88 +184,19 @@ const eightTileSweep = currentTileIndex => {
   if (divArray[currentTileIndex - width - 1]) {
     eightTilesArray.push(Number(divArray[currentTileIndex - width - 1].id))
   }
-  
 
-  console.log(eightTilesArray)
+// eightTilesArray.push(Number(divArray[currentTileIndex - width].id))
+// eightTilesArray.push(Number(divArray[currentTileIndex - width + 1].id))
+// eightTilesArray.push(Number(divArray[currentTileIndex + 1].id))
+// eightTilesArray.push(Number(divArray[currentTileIndex + width + 1].id))
+// eightTilesArray.push(Number(divArray[currentTileIndex + width].id))
+// eightTilesArray.push(Number(divArray[currentTileIndex + width - 1].id))
+// eightTilesArray.push(Number(divArray[currentTileIndex - 1].id))
+// eightTilesArray.push(Number(divArray[currentTileIndex - width - 1].id))
+
+console.log(eightTilesArray)
 
 }
-
-
-  // // if tile position 'up' is not a mine, set to 0
-  // if (divArray[currentTileIndex - width].innerHTML !== '*') {
-  //   divArray[currentTileIndex - width].innerHTML = 0
-  // }
-
-  // // if tile position 'upRight' is not a mine, set to 0
-  // if (divArray[currentTileIndex - width + 1].innerHTML !== '*') {
-  //   divArray[currentTileIndex - width + 1].innerHTML = 0
-  // }
-
-  // // if tile position 'right' is not a mine, set to 0
-  // if (divArray[currentTileIndex + 1].innerHTML !== '*') {
-  //   divArray[currentTileIndex + 1].innerHTML = 0
-  // }
-
-  // // if tile position 'downRight' is not a mine, set to 0
-  // if (divArray[currentTileIndex + width + 1].innerHTML !== '*') {
-  //   divArray[currentTileIndex + width + 1].innerHTML = 0
-  // }
-
-  // // if tile position 'down' is not a mine, set to 0
-  // if (divArray[currentTileIndex + width].innerHTML !== '*') {
-  //   divArray[currentTileIndex + width].innerHTML = 0
-  // }
-
-  // // if tile position 'downLeft' is not a mine, set to 0
-  // if (divArray[currentTileIndex + width - 1].innerHTML !== '*') {
-  //   divArray[currentTileIndex + width - 1].innerHTML = 0
-  // }
-
-  // // if tile position 'left' is not a mine, set to 0
-  // if (divArray[currentTileIndex - 1].innerHTML !== '*') {
-  //   divArray[currentTileIndex - 1].innerHTML = 0
-  // }
-
-  // // if tile position 'upLeft' is not a mine, set to 0
-  // if (divArray[currentTileIndex - width - 1].innerHTML !== '*') {
-  //   divArray[currentTileIndex - width - 1].innerHTML = 0
-  // }
-
-
-// }
-
-/*
-  # CHECK THE TILES ALONG THE EDGES AND CORNERS #
-   ! Will need to change these hard coded numbers to relative for other grid sizes.
-    * If the currentTileIndex < width, then it's in the first row
-      # Check currentTileIndex: -1, +1, +10, +9, +11
-      * And If width % width === 0, then it's in the top, left corner
-        # Check currentTileIndex: + 1, +10, +11 
-      * And If width % width - 1 === 0, then it's in the top right corner
-        # Check currentIndexTile: -1, +10, +9
-
-    * If the currentTileIndex >= width ** 2 - width, the it's in the last row
-      # Check currentTileIndex: -1, +1, -10, -9, -11
-      * And If width % width === 0, then it's in the bottom, left corner
-        # Check currentTileIndex: -10, -9, +1
-      * And If width % width - 1 === 0, then it's in the bottom right corner
-        # Check currentTileIndex: -1, -10, -9
-
-    * If width % width === 0, then it's in the first column
-      # Check currentTileIndex: +1, -10, +10, -9, +11  
-    * If width % width - 1 === 0, then it's in the last column
-      # Check currentTileIndex: -10, +10, -1, -11, +11
-
-    * For everything else, check: x + 1, x - 1, x + 10, x - 10, x + 9, x + 11, x - 9, x - 11 
-      up: currentTileIndex - width,
-      upRight: currentTileIndex - width + 1,
-      right: currentTileIndex + 1,    
-      downRight: currentTileIndex + width + 1,
-      down: currentTileIndex + width,
-      downLeft: currentTileIndex + width - 1,
-      left: currentTileIndex - 1,    
-      upLeft: currentTileIndex - width - 1,
-*/
 
 /* 
 MINESWEEPER
