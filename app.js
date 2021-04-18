@@ -38,11 +38,12 @@ const flippedTile = (e) => {
     
     // set the current tile to 0 and white background
     e.target.innerHTML = 0
-    e.target.style.backgroundColor='white'
+    e.target.style.backgroundColor = 'white'
     currentTileIndex = Number(e.target.id)   // Make sure this is not a string 
 
     // generate the mines
     console.log(generateMines(currentTileIndex))
+
 
     // add mines to the grid
     document.querySelectorAll('.grid div').forEach(div => {
@@ -55,6 +56,7 @@ const flippedTile = (e) => {
     //sweep tiles around the mines
     const divElements = document.querySelectorAll('.grid div')
     const divArray = Array.from(divElements)
+
     mines.forEach(tile => {
 
       // let up = 0
@@ -126,6 +128,10 @@ const flippedTile = (e) => {
       //   divArray[tile - width - 1].innerHTML = upLeft
       // }
     })
+
+    //! call sweeper function
+    sweeper(currentTileIndex)
+
   }
   // console.log(sweeper(currentTileIndex))
 
@@ -194,9 +200,72 @@ const eightTileSweep = currentTileIndex => {
 // eightTilesArray.push(Number(divArray[currentTileIndex - 1].id))
 // eightTilesArray.push(Number(divArray[currentTileIndex - width - 1].id))
 
-console.log(eightTilesArray)
+  console.log(eightTilesArray)
 
 }
+
+
+const sweeper = (currentTileIndex) => {
+
+  const divs = document.querySelectorAll('.grid div')
+  const divArray = Array.from(divs)
+
+  // tile clicked
+  if (divArray[currentTileIndex] && !divArray[currentTileIndex].innerHTML && !divArray[currentTileIndex - width].classList.contains('mine')) {
+    //divArray[currentTileIndex].innerHTML = 0
+    divArray[currentTileIndex].style.backgroundColor = 'white'
+  }
+
+  // up (not first row, using undefined falsy value in if block)
+  if (divArray[currentTileIndex - width] && !divArray[currentTileIndex - width].innerHTML && !divArray[currentTileIndex - width].classList.contains('mine') || typeof(divArray[currentTileIndex - width].innerHTML) === 'string') {
+    //divArray[currentTileIndex - width].innerHTML = 0
+    divArray[currentTileIndex - width].style.backgroundColor = 'white'
+  }
+
+  // up right (not last column) (not first row, using undefined falsy value in if block)
+  if (divArray[currentTileIndex - width + 1] && currentTileIndex % width !== 9 && !divArray[currentTileIndex - width + 1].innerHTML && !divArray[currentTileIndex - width + 1].classList.contains('mine') || typeof(divArray[currentTileIndex - width + 1].innerHTML) === 'string') {
+    //divArray[currentTileIndex - width + 1].innerHTML = 0
+    divArray[currentTileIndex - width + 1].style.backgroundColor = 'white'
+  }
+
+  // right (not last column)
+  if (divArray[currentTileIndex + 1] && currentTileIndex % width !== 9 && !divArray[currentTileIndex + 1].innerHTML && !divArray[currentTileIndex + 1].classList.contains('mine') || typeof(divArray[currentTileIndex + 1].innerHTML) === 'string') {
+    //divArray[currentTileIndex + 1].innerHTML = 0
+    divArray[currentTileIndex + 1].style.backgroundColor = 'white'
+  }
+
+  // down right (not last column) (not last row, using undefined falsy value in if block)
+  if (divArray[currentTileIndex + width + 1]  && currentTileIndex % width !== 9 && !divArray[currentTileIndex + width + 1].innerHTML && !divArray[currentTileIndex + width + 1].classList.contains('mine') || typeof(divArray[currentTileIndex + width + 1].innerHTML) === 'string') {
+    //divArray[currentTileIndex + width + 1].innerHTML = 0
+    divArray[currentTileIndex + width + 1].style.backgroundColor = 'white'
+  }
+
+  // down (not last row, using undefined falsy value in if block)
+  if (divArray[currentTileIndex + width] && !divArray[currentTileIndex + width].innerHTML && !divArray[currentTileIndex + width].classList.contains('mine') || typeof(divArray[currentTileIndex + width].innerHTML) === 'string') {
+    //divArray[currentTileIndex + width].innerHTML = 0
+    divArray[currentTileIndex + width].style.backgroundColor = 'white'
+  }
+
+  // down left (not first column) (not last row, using undefined falsy value in if block)
+  if (divArray[currentTileIndex + width - 1] && currentTileIndex % width !== 0 && !divArray[currentTileIndex + width - 1].innerHTML && !divArray[currentTileIndex + width - 1].classList.contains('mine') || typeof(divArray[currentTileIndex + width - 1].innerHTML) === 'string') {
+    //divArray[currentTileIndex + width - 1].innerHTML = 0
+    divArray[currentTileIndex + width - 1].style.backgroundColor = 'white'
+  }
+
+  // left (mpt forst column)
+  if (divArray[currentTileIndex - 1] && currentTileIndex % width !== 0 && !divArray[currentTileIndex - 1].innerHTML && !divArray[currentTileIndex - 1].classList.contains('mine') || typeof(divArray[currentTileIndex - 1].innerHTML) === 'string') {
+    //divArray[currentTileIndex - 1].innerHTML = 0
+    divArray[currentTileIndex - 1].style.backgroundColor = 'white'
+  }
+
+  // up left (not first column) (not first row, using undefined falsy value in if block)
+  if (divArray[currentTileIndex - width - 1] && currentTileIndex % width !== 0 && !divArray[currentTileIndex - width - 1].innerHTML && !divArray[currentTileIndex - width - 1].classList.contains('mine') || typeof(divArray[currentTileIndex - width - 1].innerHTML) === 'string') {
+    //divArray[currentTileIndex - width - 1].innerHTML = 0
+    divArray[currentTileIndex - width - 1].style.backgroundColor = 'white'
+  }
+}
+
+
 
 /* 
 MINESWEEPER
