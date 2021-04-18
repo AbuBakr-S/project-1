@@ -205,6 +205,11 @@ const eightTileSweep = currentTileIndex => {
 }
 
 
+
+
+
+
+
 const sweeper = (currentTileIndex) => {
 
   const divs = document.querySelectorAll('.grid div')
@@ -217,49 +222,49 @@ const sweeper = (currentTileIndex) => {
   }
 
   // up (not first row, using undefined falsy value in if block)
-  if (divArray[currentTileIndex - width] && !divArray[currentTileIndex - width].innerHTML && !divArray[currentTileIndex - width].classList.contains('mine') || typeof(divArray[currentTileIndex - width].innerHTML) === 'string') {
+  if (divArray[currentTileIndex - width] && !divArray[currentTileIndex - width].innerHTML && !divArray[currentTileIndex - width].classList.contains('mine')) {
     //divArray[currentTileIndex - width].innerHTML = 0
     divArray[currentTileIndex - width].style.backgroundColor = 'white'
   }
 
   // up right (not last column) (not first row, using undefined falsy value in if block)
-  if (divArray[currentTileIndex - width + 1] && currentTileIndex % width !== 9 && !divArray[currentTileIndex - width + 1].innerHTML && !divArray[currentTileIndex - width + 1].classList.contains('mine') || typeof(divArray[currentTileIndex - width + 1].innerHTML) === 'string') {
+  if (divArray[currentTileIndex - width + 1] && currentTileIndex % width !== 9 && !divArray[currentTileIndex - width + 1].innerHTML && !divArray[currentTileIndex - width + 1].classList.contains('mine')) {
     //divArray[currentTileIndex - width + 1].innerHTML = 0
     divArray[currentTileIndex - width + 1].style.backgroundColor = 'white'
   }
 
   // right (not last column)
-  if (divArray[currentTileIndex + 1] && currentTileIndex % width !== 9 && !divArray[currentTileIndex + 1].innerHTML && !divArray[currentTileIndex + 1].classList.contains('mine') || typeof(divArray[currentTileIndex + 1].innerHTML) === 'string') {
+  if (divArray[currentTileIndex + 1] && currentTileIndex % width !== 9 && !divArray[currentTileIndex + 1].innerHTML && !divArray[currentTileIndex + 1].classList.contains('mine')) {
     //divArray[currentTileIndex + 1].innerHTML = 0
     divArray[currentTileIndex + 1].style.backgroundColor = 'white'
   }
 
   // down right (not last column) (not last row, using undefined falsy value in if block)
-  if (divArray[currentTileIndex + width + 1]  && currentTileIndex % width !== 9 && !divArray[currentTileIndex + width + 1].innerHTML && !divArray[currentTileIndex + width + 1].classList.contains('mine') || typeof(divArray[currentTileIndex + width + 1].innerHTML) === 'string') {
+  if (divArray[currentTileIndex + width + 1]  && currentTileIndex % width !== 9 && !divArray[currentTileIndex + width + 1].innerHTML && !divArray[currentTileIndex + width + 1].classList.contains('mine')) {
     //divArray[currentTileIndex + width + 1].innerHTML = 0
     divArray[currentTileIndex + width + 1].style.backgroundColor = 'white'
   }
 
   // down (not last row, using undefined falsy value in if block)
-  if (divArray[currentTileIndex + width] && !divArray[currentTileIndex + width].innerHTML && !divArray[currentTileIndex + width].classList.contains('mine') || typeof(divArray[currentTileIndex + width].innerHTML) === 'string') {
+  if (divArray[currentTileIndex + width] && !divArray[currentTileIndex + width].innerHTML && !divArray[currentTileIndex + width].classList.contains('mine')) {
     //divArray[currentTileIndex + width].innerHTML = 0
     divArray[currentTileIndex + width].style.backgroundColor = 'white'
   }
 
   // down left (not first column) (not last row, using undefined falsy value in if block)
-  if (divArray[currentTileIndex + width - 1] && currentTileIndex % width !== 0 && !divArray[currentTileIndex + width - 1].innerHTML && !divArray[currentTileIndex + width - 1].classList.contains('mine') || typeof(divArray[currentTileIndex + width - 1].innerHTML) === 'string') {
+  if (divArray[currentTileIndex + width - 1] && currentTileIndex % width !== 0 && !divArray[currentTileIndex + width - 1].innerHTML && !divArray[currentTileIndex + width - 1].classList.contains('mine')) {
     //divArray[currentTileIndex + width - 1].innerHTML = 0
     divArray[currentTileIndex + width - 1].style.backgroundColor = 'white'
   }
 
   // left (mpt forst column)
-  if (divArray[currentTileIndex - 1] && currentTileIndex % width !== 0 && !divArray[currentTileIndex - 1].innerHTML && !divArray[currentTileIndex - 1].classList.contains('mine') || typeof(divArray[currentTileIndex - 1].innerHTML) === 'string') {
+  if (divArray[currentTileIndex - 1] && currentTileIndex % width !== 0 && !divArray[currentTileIndex - 1].innerHTML && !divArray[currentTileIndex - 1].classList.contains('mine')) {
     //divArray[currentTileIndex - 1].innerHTML = 0
     divArray[currentTileIndex - 1].style.backgroundColor = 'white'
   }
 
   // up left (not first column) (not first row, using undefined falsy value in if block)
-  if (divArray[currentTileIndex - width - 1] && currentTileIndex % width !== 0 && !divArray[currentTileIndex - width - 1].innerHTML && !divArray[currentTileIndex - width - 1].classList.contains('mine') || typeof(divArray[currentTileIndex - width - 1].innerHTML) === 'string') {
+  if (divArray[currentTileIndex - width - 1] && currentTileIndex % width !== 0 && !divArray[currentTileIndex - width - 1].innerHTML && !divArray[currentTileIndex - width - 1].classList.contains('mine')) {
     //divArray[currentTileIndex - width - 1].innerHTML = 0
     divArray[currentTileIndex - width - 1].style.backgroundColor = 'white'
   }
