@@ -10,7 +10,11 @@ let numberOfClicks = 0
 
 const generateBoard = () => {
   for (let i = 0; i < width ** 2; i++) {
+
     const div = document.createElement('div')
+    // Add data attribute for nearby mines counter
+    div.setAttribute('data-counter', 0)
+
     elements.grid.appendChild(div)
     div.id = i
 
@@ -46,7 +50,8 @@ const flippedTile = (e) => {
     tilesNearbyMine()
   }
   
-  checkSurroundingTiles(currentTileIndex, eightTilesArray)
+  sweepSurroundingTiles(currentTileIndex, eightTilesArray)
+  addSurroundingMinesCounter()
 }
 
 const getSurroundingTiles = (currentTileIndex) => {
@@ -54,14 +59,14 @@ const getSurroundingTiles = (currentTileIndex) => {
   eightTilesArray = []
 
   // surrounding tiles
-  let upRight = currentTileIndex - width + 1
-  let right = currentTileIndex + 1
-  let downRight = currentTileIndex + width + 1
-  let up = currentTileIndex - width
-  let down = currentTileIndex + width
-  let downLeft = currentTileIndex + width - 1
-  let left = currentTileIndex - 1
-  let upLeft = currentTileIndex - width - 1
+  const upRight = currentTileIndex - width + 1
+  const right = currentTileIndex + 1
+  const downRight = currentTileIndex + width + 1
+  const up = currentTileIndex - width
+  const down = currentTileIndex + width
+  const downLeft = currentTileIndex + width - 1
+  const left = currentTileIndex - 1
+  const upLeft = currentTileIndex - width - 1
 
   const isFirstColumn = (currentTileIndex % width === 0)
   const isLastColumn = (currentTileIndex % width === width - 1)
@@ -117,49 +122,92 @@ const tilesNearbyMine = () => {
   mines.forEach(mine => {
 
     // surrounding tiles
-    let upRight = mine - width + 1
-    let right = mine + 1
-    let downRight = mine + width + 1
-    let up = mine - width
-    let down = mine + width
-    let downLeft = mine + width - 1
-    let left = mine - 1
-    let upLeft = mine - width - 1
+    const upRight = mine - width + 1
+    const right = mine + 1
+    const downRight = mine + width + 1
+    const up = mine - width
+    const down = mine + width
+    const downLeft = mine + width - 1
+    const left = mine - 1
+    const upLeft = mine - width - 1
 
     const isFirstColumn = (mine % width === 0)
     const isLastColumn = (mine % width === width - 1)
 
     //grab the indexes of all the tiles surrounding the currentTileIndex
     if (divArray[up] && !divArray[up].classList.contains('mine')) {
-      divArray[up].innerHTML += 1
+      //divArray[up].innerHTML += 1
+      // ! Increment counter
+      divArray[up].attributes['data-counter'].value++
     }
     if (divArray[upRight] && !isLastColumn && !divArray[upRight].classList.contains('mine')) {
-      divArray[upRight].innerHTML += 1
+      //divArray[upRight].innerHTML += 1
+      // ! Increment counter
+      divArray[upRight].attributes['data-counter'].value++
     }
     if (divArray[right] && !isLastColumn && !divArray[right].classList.contains('mine')) {
-      divArray[right].innerHTML += 1
+      //divArray[right].innerHTML += 1
+      // ! Increment counter
+      divArray[right].attributes['data-counter'].value++
     }
     if (divArray[downRight] && !isLastColumn && !divArray[downRight].classList.contains('mine')) {
-      divArray[downRight].innerHTML += 1
+      //divArray[downRight].innerHTML += 1
+      // ! Increment counter
+      divArray[downRight].attributes['data-counter'].value++
     }
     if (divArray[down] && !divArray[down].classList.contains('mine')) {
-      divArray[down].innerHTML += 1
+      //divArray[down].innerHTML += 1
+      // ! Increment counter
+      divArray[down].attributes['data-counter'].value++
     }
     if (divArray[downLeft] && !isFirstColumn && !divArray[downLeft].classList.contains('mine')) {
-      divArray[downLeft].innerHTML += 1
+      //divArray[downLeft].innerHTML += 1
+      // ! Increment counter
+      divArray[downLeft].attributes['data-counter'].value++
     }
     if (divArray[left] && !isFirstColumn && !divArray[left].classList.contains('mine')) {
-      divArray[left].innerHTML += 1
+      //divArray[left].innerHTML += 1
+      // ! Increment counter
+      divArray[left].attributes['data-counter'].value++
     }
     if (divArray[upLeft] && !isFirstColumn && !divArray[upLeft].classList.contains('mine')) {
-      divArray[upLeft].innerHTML += 1
+      //divArray[upLeft].innerHTML += 1
+      // ! Increment counter
+      divArray[upLeft].attributes['data-counter'].value++
     }
 
   })
 }
 
-const checkSurroundingTiles = (currentTileIndex, eightTilesArray) => {
-  console.log('you summoned me')
-  console.log(eightTilesArray)
-  console.log(mines)
+const addSurroundingMinesCounter = () => {
+
+  divArray.forEach(div => {
+    if (Number(div.attributes['data-counter'].value) !== 0) {
+      div.innerHTML = Number(div.attributes['data-counter'].value)
+    }
+  })
+
+  // //divArray[up].innerHTML += 1
+  // divArray[up].attributes['data-counter'].value++
+  // //divArray[upRight].innerHTML += 1
+  // divArray[upRight].attributes['data-counter'].value++
+  // //divArray[right].innerHTML += 1
+  // divArray[right].attributes['data-counter'].value++
+  // //divArray[downRight].innerHTML += 1
+  // divArray[downRight].attributes['data-counter'].value++
+  // //divArray[down].innerHTML += 1
+  // divArray[down].attributes['data-counter'].value++
+  // //divArray[downLeft].innerHTML += 1
+  // divArray[downLeft].attributes['data-counter'].value++
+  // //divArray[left].innerHTML += 1
+  // divArray[left].attributes['data-counter'].value++
+  // //divArray[upLeft].innerHTML += 1
+  // divArray[upLeft].attributes['data-counter'].value++ 
+
+}
+
+const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
+  console.log('Call to sweepSurroundingTiles Function')
+  console.log('Tiles Surrounding Current Tile Clicked: ', eightTilesArray)
+  console.log('Mine Indexes: ', mines)
 }
