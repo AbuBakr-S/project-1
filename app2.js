@@ -15,11 +15,11 @@ const generateBoard = () => {
     // Add data attribute for nearby mines counter
     div.setAttribute('data-counter', 0)
 
+    // Add data attribute to track whether a tile has been sweeped 
+    div.setAttribute('data-sweeped', false)
+
     elements.grid.appendChild(div)
     div.id = i
-
-    // ! Remove after testing
-    //div.innerHTML = i
 
     // dynamically size the grids using the width
     div.style.width = `${100 / width}%`
@@ -39,7 +39,7 @@ divArray.forEach(div => {
 const flippedTile = (e) => {
   numberOfClicks++
   currentTileIndex = Number(e.target.id)
-  console.log(currentTileIndex)
+  console.log('Current Tile Index: ', currentTileIndex)
   getSurroundingTiles(currentTileIndex)
 
   // ! If first click, then generate mines
@@ -50,7 +50,9 @@ const flippedTile = (e) => {
     tilesNearbyMine()
   }
   
+  // ! TEST
   sweepSurroundingTiles(currentTileIndex, eightTilesArray)
+  loopingSweeper(eightTilesArray)
   addSurroundingMinesCounter()
 }
 
@@ -72,7 +74,7 @@ const getSurroundingTiles = (currentTileIndex) => {
   const isLastColumn = (currentTileIndex % width === width - 1)
 
   //grab the indexes of all the tiles surrounding the currentTileIndex
-  if (divArray[up]) {
+  if (divArray[up] ) {
     eightTilesArray.push(Number(divArray[up].id))
   }
   if (divArray[upRight] && !isLastColumn) {
@@ -171,8 +173,33 @@ const addSurroundingMinesCounter = () => {
   })
 }
 
+// ? Still need to figure out how many times to run this and set up boundries
 const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
-  console.log('Call to sweepSurroundingTiles Function')
-  console.log('Tiles Surrounding Current Tile Clicked: ', eightTilesArray)
-  console.log('Mine Indexes: ', mines)
+  eightTilesArray.forEach(tile => {
+    // check current tile
+    if (!divArray[currentTileIndex].classList.contains('mine') && !divArray[tile].classList.contains('mine')) {
+      divArray[currentTileIndex].classList.add('sweeped')
+      divArray[currentTileIndex].attributes['data-sweeped'].value = true
+      // check surrounding tiles
+      divArray[tile].classList.add('sweeped')
+      divArray[tile].attributes['data-sweeped'].value = true
+
+      // if (divArray[tile].attributes['data-counter'].value && divArray[tile].attributes['data-sweeped'].value === true) {
+      //   return 
+      //   //eightTilesArray.splice(tile, 1)
+      // }
+
+    }
+  })
+}
+
+const loopingSweeper = (eightTilesArray) => {
+  console.log('Eight Tiles Array: ', eightTilesArray)
+  eightTilesArray.forEach(tile => {
+    const newIndex = Number(divArray[tile].id)
+    //console.log(newIndex)
+    sweepSurroundingTiles(newIndex, getSurroundingTiles(newIndex))
+  })
+  // call getSurroundingTiles with a new index to return a new eightTilesArray
+  // then call sweepSurroundingTiles with this new index and new eightTilesArray
 }

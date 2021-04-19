@@ -42,3 +42,7 @@ body {
 .mine {
   background-color: rgba(255, 0, 0, 1) !important;
 }
+
+.sweeped {
+  background-color: rgba(158, 239, 255) !important;
+}
