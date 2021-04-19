@@ -15,7 +15,7 @@ const generateBoard = () => {
     div.id = i
 
     // ! Remove after testing
-    div.innerHTML = i
+    //div.innerHTML = i
 
     // dynamically size the grids using the width
     div.style.width = `${100 / width}%`
@@ -42,6 +42,8 @@ const flippedTile = (e) => {
   if (numberOfClicks === 1) {
     console.log('First Click!')
     generateMines(currentTileIndex, eightTilesArray)
+    addMinesToBoard()
+    tilesNearbyMine()
   }
   
   checkSurroundingTiles(currentTileIndex, eightTilesArray)
@@ -102,6 +104,58 @@ const generateMines = (currentTileIndex, eightTilesArray) => {
     }
   }
   return mines
+}
+
+const addMinesToBoard = () => {
+  mines.forEach(mine => {
+    divArray[mine].classList.add('mine')
+  })
+}
+
+const tilesNearbyMine = () => {
+
+  mines.forEach(mine => {
+
+    // surrounding tiles
+    let upRight = mine - width + 1
+    let right = mine + 1
+    let downRight = mine + width + 1
+    let up = mine - width
+    let down = mine + width
+    let downLeft = mine + width - 1
+    let left = mine - 1
+    let upLeft = mine - width - 1
+
+    const isFirstColumn = (mine % width === 0)
+    const isLastColumn = (mine % width === width - 1)
+
+    //grab the indexes of all the tiles surrounding the currentTileIndex
+    if (divArray[up] && !divArray[up].classList.contains('mine')) {
+      divArray[up].innerHTML += 1
+    }
+    if (divArray[upRight] && !isLastColumn && !divArray[upRight].classList.contains('mine')) {
+      divArray[upRight].innerHTML += 1
+    }
+    if (divArray[right] && !isLastColumn && !divArray[right].classList.contains('mine')) {
+      divArray[right].innerHTML += 1
+    }
+    if (divArray[downRight] && !isLastColumn && !divArray[downRight].classList.contains('mine')) {
+      divArray[downRight].innerHTML += 1
+    }
+    if (divArray[down] && !divArray[down].classList.contains('mine')) {
+      divArray[down].innerHTML += 1
+    }
+    if (divArray[downLeft] && !isFirstColumn && !divArray[downLeft].classList.contains('mine')) {
+      divArray[downLeft].innerHTML += 1
+    }
+    if (divArray[left] && !isFirstColumn && !divArray[left].classList.contains('mine')) {
+      divArray[left].innerHTML += 1
+    }
+    if (divArray[upLeft] && !isFirstColumn && !divArray[upLeft].classList.contains('mine')) {
+      divArray[upLeft].innerHTML += 1
+    }
+
+  })
 }
 
 const checkSurroundingTiles = (currentTileIndex, eightTilesArray) => {
