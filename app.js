@@ -18,6 +18,9 @@ const generateBoard = () => {
     // Add data attribute to track whether a tile has been sweeped 
     div.setAttribute('data-sweeped', false)
 
+    // Prevent default right click behaviour on each tile
+    //div.setAttribute('oncontextmenu', 'event.preventDefault();')
+
     elements.grid.appendChild(div)
     div.id = i
 
@@ -29,11 +32,22 @@ const generateBoard = () => {
 
 generateBoard()
 
+const logMouseButton = (e) => {
+  //Add a flag if a tile is right clicked
+  // ! The image is not currently being displayed. Only the background colour is changing
+  if (e.button === 2 && divArray[currentTileIndex]) {
+    console.log(e.button)
+    console.log(divArray[currentTileIndex])
+    divArray[Number(e.target.id)].classList.add('flag')
+  }
+}
+
 const divArray = Array.from(document.querySelectorAll('.grid div'))
 divArray.forEach(div => {
   div.addEventListener('click', (e) => {
     flippedTile(e)
   })
+  div.addEventListener('mouseup', logMouseButton)
 })
 
 const flippedTile = (e) => {
