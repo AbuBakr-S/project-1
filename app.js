@@ -53,7 +53,6 @@ const flippedTile = (e) => {
   // ! TEST
   sweepSurroundingTiles(currentTileIndex, eightTilesArray)
   //loopingSweeper(eightTilesArray)
-  addSurroundingMinesCounter()
 }
 
 const getSurroundingTiles = (currentTileIndex) => {
@@ -165,14 +164,6 @@ const tilesNearbyMine = () => {
   })
 }
 
-const addSurroundingMinesCounter = () => {
-  divArray.forEach(div => {
-    if (Number(div.attributes['data-counter'].value) !== 0) {
-      div.innerHTML = Number(div.attributes['data-counter'].value)
-    }
-  })
-}
-
 // ? Still need to figure out how many times to run this and set up boundries
 const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
 
@@ -211,6 +202,8 @@ const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
       Number(divArray[currentTileIndex].attributes['data-counter'].value) === 0 &&
       Number(divArray[tile].attributes['data-counter'].value) > 0
     ) {
+      // Display surrounding mine counter
+      divArray[tile].innerHTML = Number(divArray[tile].attributes['data-counter'].value)
       divArray[tile].classList.add('sweeped')
       divArray[tile].attributes['data-sweeped'].value = true
       return
