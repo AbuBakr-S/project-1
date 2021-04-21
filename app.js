@@ -53,6 +53,7 @@ const flippedTile = (e) => {
   // ! TEST
   sweepSurroundingTiles(currentTileIndex, eightTilesArray)
   //loopingSweeper(eightTilesArray)
+  sweepCurrentTile(currentTileIndex)
 }
 
 const getSurroundingTiles = (currentTileIndex) => {
@@ -162,6 +163,15 @@ const tilesNearbyMine = () => {
     }
 
   })
+}
+
+// * If the current tile directly clicked is a number, uncover the tile and display the surrounding mine counter
+const sweepCurrentTile = (currentTileIndex) => {
+  if (Number(divArray[currentTileIndex].attributes['data-counter'].value) > 0) {
+    divArray[currentTileIndex].innerHTML = Number(divArray[currentTileIndex].attributes['data-counter'].value)
+    divArray[currentTileIndex].classList.add('sweeped')
+    divArray[currentTileIndex].attributes['data-sweeped'].value = true
+  }
 }
 
 // ? Still need to figure out how many times to run this and set up boundries
