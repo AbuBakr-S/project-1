@@ -171,6 +171,8 @@ const sweepCurrentTile = (currentTileIndex) => {
     divArray[currentTileIndex].innerHTML = Number(divArray[currentTileIndex].attributes['data-counter'].value)
     divArray[currentTileIndex].classList.add('sweeped')
     divArray[currentTileIndex].attributes['data-sweeped'].value = true
+  } else if (divArray[currentTileIndex].classList.contains('mine')) {
+    gameOver()
   }
 }
 
@@ -248,3 +250,18 @@ const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
 //   // call getSurroundingTiles with a new index to return a new eightTilesArray
 //   // then call sweepSurroundingTiles with this new index and new eightTilesArray
 // }
+
+// If a mine is clicked, diaplay an alert, display all the tile counters and display all the mines
+const gameOver = () => {
+  // Display all the tiles
+  divArray.forEach(tile => {
+    if (Number(tile.attributes['data-counter'].value) !== 0) {
+      tile.innerHTML = Number(tile.attributes['data-counter'].value)
+    }
+    if (tile.classList.contains('mine')) {
+      tile.style.backgroundColor = 'red'
+    }
+  })
+
+  alert('Game Over!')
+}
