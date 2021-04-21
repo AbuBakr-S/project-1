@@ -176,15 +176,19 @@ const addSurroundingMinesCounter = () => {
 // ? Still need to figure out how many times to run this and set up boundries
 const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
 
-  // * BASE CASE: If all surrounding tiles have a 'data-sweeped' value of true, stop looping 
-  // const done = eightTilesArray.every(tile => {
-  //   divArray[tile].attributes['data-sweeped'].value = true
-  // })
-  // console.log(divArray[tile].attributes['data-sweeped'].value)
-
   console.log('CurrentTileIndex: ', currentTileIndex, 'EightTileArray: ', eightTilesArray)
   eightTilesArray.forEach(tile => {
     console.log('Tile: ', tile)
+
+    // * BASE CASE: If all surrounding tiles have a 'data-sweeped' value of true, stop looping 
+    // const allSurroundingTilesSweeped = eightTilesArray.every(tile => {
+    //   divArray[tile].attributes['data-sweeped'].value = true
+    // })
+
+    // if (allSurroundingTilesSweeped) {
+    //   console.log('All surrounding tiles have been sweeped!')
+    //   return
+    // }
 
     // * Check current tile and surrounding tiles are empty. If so, reveal
     if (
