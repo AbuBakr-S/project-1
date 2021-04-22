@@ -186,6 +186,7 @@ const tilesNearbyMine = () => {
 
 // * If the current tile directly clicked is a number, uncover the tile and display the surrounding mine counter
 const sweepCurrentTile = (currentTileIndex) => {
+
   if (Number(divArray[currentTileIndex].attributes['data-counter'].value) > 0) {
     divArray[currentTileIndex].innerHTML = Number(divArray[currentTileIndex].attributes['data-counter'].value)
     divArray[currentTileIndex].classList.add('sweeped')
@@ -260,6 +261,12 @@ const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
 }
 
 const loopingSweeper = (eightTilesArray) => {
+
+  // * If the current tile is a number, return
+  if (Number(divArray[currentTileIndex].attributes['data-counter'].value) > 0) {
+    return
+  }
+  
   //console.log('Eight Tiles Array: ', eightTilesArray)
   eightTilesArray.forEach(tile => {
     const newIndex = Number(divArray[tile].id)
