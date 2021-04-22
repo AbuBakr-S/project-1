@@ -1,6 +1,10 @@
 const elements = {
   grid: document.querySelector('.grid'),
   elapsedTime: document.querySelector('#elapsed-time'),
+  modal: document.getElementById('myModal'),
+  modalSpan: document.getElementsByClassName('close')[0],
+  modalBody1: document.querySelector('#modal-body-1'),
+  modalBody2: document.querySelector('#modal-body-2'),
 }
 
 const width = 10
@@ -298,7 +302,11 @@ const gameOver = () => {
   isPlaying = false
   clearInterval(elapsedTimeID)
   elements.elapsedTime.innerHTML = 0
-  alert('Game Over!')
+
+  // Display modal
+  elements.modalBody1.innerHTML = 'GAME OVER!'
+  elements.modalBody2.innerHTML = 'Woah, looks like you hit a mine'
+  elements.modal.style.display = 'block'
 }
 
 
@@ -312,6 +320,19 @@ const checkWin = (sweepedTilesArray) => {
     isPlaying = false
     clearInterval(elapsedTimeID)
     elements.elapsedTime.innerHTML = 0
-    alert('Winner!')
+    // Display modal
+    elements.modalBody1.innerHTML = 'YOU WIN!'
+    elements.modalBody2.innerHTML = 'Well done, you\'ve cleared all mines'
+    elements.modal.style.display = 'block'
   }
 }
+
+elements.modalSpan.addEventListener('click', () => {
+  elements.modal.style.display = 'none'
+})
+
+window.addEventListener('click', (e) => {
+  if (e.target === elements.modal) {
+    elements.modal.style.display = 'none'
+  }
+})
