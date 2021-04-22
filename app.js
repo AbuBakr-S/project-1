@@ -35,7 +35,7 @@ generateBoard()
 const flag = (e) => {
   //Add a flag if a tile is right clicked
   // ! The image is not currently being displayed. Only the background colour is changing
-  if (e.button === 2 && divArray[currentTileIndex]) {
+  if (e.button === 2 && divArray[currentTileIndex] && !e.target.classList.contains('sweeped')) {
     divArray[Number(e.target.id)].classList.toggle('flag')
   }
 }
@@ -278,7 +278,8 @@ const gameOver = () => {
       tile.innerHTML = Number(tile.attributes['data-counter'].value)
     }
     if (tile.classList.contains('mine')) {
-      tile.style.backgroundColor = 'red'
+      tile.style.backgroundImage = 'url(./assets/bomb.svg)'
+      tile.style.backgroundSize = 'cover'
     }
   })
 
