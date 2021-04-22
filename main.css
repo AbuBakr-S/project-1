@@ -59,6 +59,17 @@ h1 {
   cursor: pointer;
 }
 
+#play-again {
+  background-color: rgb(255, 255, 255);
+  font-family: 'Pacifico', cursive;
+  border: none;
+  box-shadow: 4px 4px rgb(56, 2, 23)
+}
+
+#play-again:focus {
+  outline-color: rgb(254, 250, 224);
+}
+
 div.grid {
   height: 600px;
   width: 600px;

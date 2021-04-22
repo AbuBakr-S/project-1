@@ -5,6 +5,7 @@ const elements = {
   modalSpan: document.getElementsByClassName('close')[0],
   modalBody1: document.querySelector('#modal-body-1'),
   modalBody2: document.querySelector('#modal-body-2'),
+  modalButton: document.querySelector('#play-again'),
 }
 
 const width = 10
@@ -335,4 +336,8 @@ window.addEventListener('click', (e) => {
   if (e.target === elements.modal) {
     elements.modal.style.display = 'none'
   }
+})
+
+elements.modalButton.addEventListener('click', () => {
+  location.reload()
 })
