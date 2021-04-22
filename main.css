@@ -8,32 +8,46 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #FEFAE0;
+  font-family: 'Pacifico', cursive;
+  text-align: center;
+  font-size: 16px;
 }
 
-.grid {
+h1 {
+  font-size: 36px;
+}
+
+div.grid {
   height: 600px;
   width: 600px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  border: 1px solid green;
+  border: 5px solid rgb(40, 54, 24);
+  font-size: 20px;
 }
 
 .grid div {
-  border: 1px solid greenyellow;
-  background-color: grey;
+  border: 3px solid rgb(40, 54, 24);
+  background-color: rgba(96, 108, 56, 1);
 }
 
-div .flag {
-  background-image: url(./assets/flag.png);
-  background-size: cover;
+div > div:hover {
+  background-color: rgba(96, 108, 56, 0.6);
+}
+
+div.grid > .flag {
+  /* background-image: url(./assets/flag.svg);
+  background-size: cover; */
   background-color: orange;
 }
 
-div .mine {
-  /* background-color: rgba(255, 0, 0, 1); */
+div.grid > .mine {
+  /* background-image: url(./assets/bomb.svg);
+  background-size: cover; */
 }
 
-div .sweeped {
-  background-color: rgba(158, 239, 255);
+div.grid > .sweeped {
+  background-color: #DDA15E;
 }
