@@ -1,5 +1,6 @@
 const elements = {
   grid: document.querySelector('.grid'),
+  elapsedTime: document.querySelector('#elapsed-time'),
 }
 
 const width = 10
@@ -7,6 +8,8 @@ const mines = []
 let currentTileIndex
 let eightTilesArray = []
 let numberOfClicks = 0
+let isPlaying = false
+let elapsedTimeID
 
 const generateBoard = () => {
   for (let i = 0; i < width ** 2; i++) {
@@ -54,14 +57,19 @@ const flippedTile = (e) => {
   console.log('Current Tile Index (Clicked): ', currentTileIndex)
   getSurroundingTiles(currentTileIndex)
 
-  // ! If first click, then generate mines
   if (numberOfClicks === 1) {
     generateMines(currentTileIndex, eightTilesArray)
     addMinesToBoard()
     tilesNearbyMine()
+
+    // ! Test Timer
+    isPlaying = true
+    let counter = 1
+    elapsedTimeID = setInterval(() => {
+      document.querySelector('#elapsed-time').innerHTML = counter++
+    }, 1000)
   }
   
-  // ! TEST
   sweepSurroundingTiles(currentTileIndex, eightTilesArray)
   loopingSweeper(eightTilesArray)
   sweepCurrentTile(currentTileIndex)
@@ -287,6 +295,9 @@ const gameOver = () => {
     }
   })
 
+  isPlaying = false
+  clearInterval(elapsedTimeID)
+  elements.elapsedTime.innerHTML = 0
   alert('Game Over!')
 }
 
@@ -298,7 +309,9 @@ const checkWin = (sweepedTilesArray) => {
     return tile.attributes['data-sweeped'].value === 'true'
   })   
   if (isWinner) {
+    isPlaying = false
+    clearInterval(elapsedTimeID)
+    elements.elapsedTime.innerHTML = 0
     alert('Winner!')
   }
 }
-
