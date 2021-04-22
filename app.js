@@ -18,6 +18,9 @@ const generateBoard = () => {
     // Add data attribute to track whether a tile has been sweeped 
     div.setAttribute('data-sweeped', false)
 
+    // Prevent default right click behaviour on each tile
+    //div.setAttribute('oncontextmenu', 'event.preventDefault();')
+
     elements.grid.appendChild(div)
     div.id = i
 
@@ -29,11 +32,20 @@ const generateBoard = () => {
 
 generateBoard()
 
+const flag = (e) => {
+  //Add a flag if a tile is right clicked
+  // ! The image is not currently being displayed. Only the background colour is changing
+  if (e.button === 2 && divArray[currentTileIndex]) {
+    divArray[Number(e.target.id)].classList.toggle('flag')
+  }
+}
+
 const divArray = Array.from(document.querySelectorAll('.grid div'))
 divArray.forEach(div => {
   div.addEventListener('click', (e) => {
     flippedTile(e)
   })
+  div.addEventListener('mouseup', flag)
 })
 
 const flippedTile = (e) => {
@@ -52,8 +64,13 @@ const flippedTile = (e) => {
   
   // ! TEST
   sweepSurroundingTiles(currentTileIndex, eightTilesArray)
-  //loopingSweeper(eightTilesArray)
-  addSurroundingMinesCounter()
+  loopingSweeper(eightTilesArray)
+  sweepCurrentTile(currentTileIndex)
+
+  // Create an array of all tiles with sweeped attributes
+  const sweepedTilesArray = divArray.filter(tile => tile.hasAttribute('data-sweeped'))
+  checkWin(sweepedTilesArray)
+  //console.log('SweepedTilesArray: ', sweepedTilesArray)
 }
 
 const getSurroundingTiles = (currentTileIndex) => {
@@ -113,9 +130,11 @@ const generateMines = (currentTileIndex, eightTilesArray) => {
   return mines
 }
 
+// If a tile has a mine, add the mine class and remove the 'data-sweeped' attribute
 const addMinesToBoard = () => {
   mines.forEach(mine => {
     divArray[mine].classList.add('mine')
+    divArray[mine].attributes.removeNamedItem('data-sweeped')
   })
 }
 
@@ -165,12 +184,15 @@ const tilesNearbyMine = () => {
   })
 }
 
-const addSurroundingMinesCounter = () => {
-  divArray.forEach(div => {
-    if (Number(div.attributes['data-counter'].value) !== 0) {
-      div.innerHTML = Number(div.attributes['data-counter'].value)
-    }
-  })
+// * If the current tile directly clicked is a number, uncover the tile and display the surrounding mine counter
+const sweepCurrentTile = (currentTileIndex) => {
+  if (Number(divArray[currentTileIndex].attributes['data-counter'].value) > 0) {
+    divArray[currentTileIndex].innerHTML = Number(divArray[currentTileIndex].attributes['data-counter'].value)
+    divArray[currentTileIndex].classList.add('sweeped')
+    divArray[currentTileIndex].attributes['data-sweeped'].value = true
+  } else if (divArray[currentTileIndex].classList.contains('mine')) {
+    gameOver()
+  }
 }
 
 // ? Still need to figure out how many times to run this and set up boundries
@@ -211,6 +233,8 @@ const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
       Number(divArray[currentTileIndex].attributes['data-counter'].value) === 0 &&
       Number(divArray[tile].attributes['data-counter'].value) > 0
     ) {
+      // Display surrounding mine counter
+      divArray[tile].innerHTML = Number(divArray[tile].attributes['data-counter'].value)
       divArray[tile].classList.add('sweeped')
       divArray[tile].attributes['data-sweeped'].value = true
       return
@@ -235,13 +259,44 @@ const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
   })
 }
 
-// const loopingSweeper = (eightTilesArray) => {
-//   //console.log('Eight Tiles Array: ', eightTilesArray)
-//   eightTilesArray.forEach(tile => {
-//     const newIndex = Number(divArray[tile].id)
-//     //console.log('New Index: ', newIndex)
-//     sweepSurroundingTiles(newIndex, getSurroundingTiles(newIndex))
-//   })
-//   // call getSurroundingTiles with a new index to return a new eightTilesArray
-//   // then call sweepSurroundingTiles with this new index and new eightTilesArray
-// }
+const loopingSweeper = (eightTilesArray) => {
+  //console.log('Eight Tiles Array: ', eightTilesArray)
+  eightTilesArray.forEach(tile => {
+    const newIndex = Number(divArray[tile].id)
+    //console.log('New Index: ', newIndex)
+    sweepSurroundingTiles(newIndex, getSurroundingTiles(newIndex))
+  })
+  // call getSurroundingTiles with a new index to return a new eightTilesArray
+  // then call sweepSurroundingTiles with this new index and new eightTilesArray
+}
+
+// If a mine is clicked, diaplay an alert, display all the tile counters and display all the mines
+const gameOver = () => {
+  // Display all the tiles
+  divArray.forEach(tile => {
+    if (Number(tile.attributes['data-counter'].value) !== 0) {
+      tile.innerHTML = Number(tile.attributes['data-counter'].value)
+    }
+    if (tile.classList.contains('mine')) {
+      tile.style.backgroundColor = 'red'
+    }
+  })
+
+  alert('Game Over!')
+}
+
+
+// If all the tiles, minus the mines, have been swept, the player wins
+// ? Expecting this to return true when the player has won
+const checkWin = (sweepedTilesArray) => {
+  console.log(sweepedTilesArray)
+  
+  const isWinner = sweepedTilesArray.every(tile => {
+    console.log(tile.attributes['data-sweeped'].value)
+    return tile.attributes['data-sweeped'].value === 'true'
+  })   
+  if (isWinner) {
+    alert('Winner!')
+  }
+}
+

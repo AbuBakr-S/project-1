@@ -21,28 +21,19 @@ body {
 
 .grid div {
   border: 1px solid greenyellow;
+  background-color: grey;
 }
 
-.grid div:nth-child(odd) {
-  background: rgb(255, 195, 0);
+div .flag {
+  background-image: url(./assets/flag.png);
+  background-size: cover;
+  background-color: orange;
 }
 
-.grid div:nth-child(even) {
-  background: rgb(242, 117, 12);
+div .mine {
+  /* background-color: rgba(255, 0, 0, 1); */
 }
 
-.grid div:nth-child(odd):hover {
-  background: rgba(255, 195, 0, 0.4);
-}
-
-.grid div:nth-child(even):hover {
-  background: rgba(242, 117, 12, 0.4);
-}
-
-.mine {
-  background-color: rgba(255, 0, 0, 1) !important;
-}
-
-.sweeped {
-  background-color: rgba(158, 239, 255) !important;
+div .sweeped {
+  background-color: rgba(158, 239, 255);
 }
