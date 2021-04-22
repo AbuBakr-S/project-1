@@ -51,12 +51,11 @@ divArray.forEach(div => {
 const flippedTile = (e) => {
   numberOfClicks++
   currentTileIndex = Number(e.target.id)
-  console.log('Current Tile Index: ', currentTileIndex)
+  console.log('Current Tile Index (Clicked): ', currentTileIndex)
   getSurroundingTiles(currentTileIndex)
 
   // ! If first click, then generate mines
   if (numberOfClicks === 1) {
-    console.log('First Click!')
     generateMines(currentTileIndex, eightTilesArray)
     addMinesToBoard()
     tilesNearbyMine()
@@ -201,8 +200,6 @@ const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
 
   console.log('CurrentTileIndex: ', currentTileIndex, 'EightTileArray: ', eightTilesArray)
   eightTilesArray.forEach(tile => {
-    console.log('Tile: ', tile)
-
     // * BASE CASE: If all surrounding tiles have a 'data-sweeped' value of true, stop looping 
     // const allSurroundingTilesSweeped = eightTilesArray.every(tile => {
     //   divArray[tile].attributes['data-sweeped'].value = true
@@ -297,10 +294,7 @@ const gameOver = () => {
 // If all the tiles, minus the mines, have been swept, the player wins
 // ? Expecting this to return true when the player has won
 const checkWin = (sweepedTilesArray) => {
-  console.log(sweepedTilesArray)
-  
   const isWinner = sweepedTilesArray.every(tile => {
-    console.log(tile.attributes['data-sweeped'].value)
     return tile.attributes['data-sweeped'].value === 'true'
   })   
   if (isWinner) {
