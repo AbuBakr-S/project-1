@@ -41,6 +41,7 @@ h1 {
   padding: 20px;
   width: 80%; /* Could be more or less, depending on screen size */
   text-align: center;
+  box-shadow: 5px 5px rgb(56, 2, 23);
 }
 
 /* The Close Button */
