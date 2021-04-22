@@ -38,14 +38,12 @@ div > div:hover {
 }
 
 div.grid > .flag {
-  /* background-image: url(./assets/flag.svg);
-  background-size: cover; */
-  background-color: orange;
+  background-image: url(./assets/flag.svg);
+  background-size: cover;
 }
 
 div.grid > .mine {
-  /* background-image: url(./assets/bomb.svg);
-  background-size: cover; */
+
 }
 
 div.grid > .sweeped {
