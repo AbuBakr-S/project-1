@@ -59,7 +59,6 @@ divArray.forEach(div => {
 const flippedTile = (e) => {
   numberOfClicks++
   currentTileIndex = Number(e.target.id)
-  console.log('Current Tile Index (Clicked): ', currentTileIndex)
   getSurroundingTiles(currentTileIndex)
 
   if (numberOfClicks === 1) {
@@ -210,8 +209,6 @@ const sweepCurrentTile = (currentTileIndex) => {
 
 // ? Still need to figure out how many times to run this and set up boundries
 const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
-
-  console.log('CurrentTileIndex: ', currentTileIndex, 'EightTileArray: ', eightTilesArray)
   eightTilesArray.forEach(tile => {
     // * BASE CASE: If all surrounding tiles have a 'data-sweeped' value of true, stop looping 
     // const allSurroundingTilesSweeped = eightTilesArray.every(tile => {
@@ -252,17 +249,13 @@ const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
     }
 
     // * Check whether the surrounding tile is touching an edge. If so, return
-
     if (tile % width === 0 || tile % width === width - 1) {
-      console.log('Tile Touching Border at ID: ', divArray[tile].id)
       return
     }
-
     if (tile < width && tile >= 0 || (tile > (width ** width - width - 1) && tile < width ** width)) {
-      console.log('Tile Touching Border at ID: ', divArray[tile].id)
       return
     }
-
+    
     // reveal number, return
     // mines, return
     // border / edge, return
