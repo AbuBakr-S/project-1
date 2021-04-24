@@ -26,13 +26,10 @@ const generateBoard = () => {
     // Add data attribute to track whether a tile has been sweeped 
     div.setAttribute('data-sweeped', false)
 
-    // Prevent default right click behaviour on each tile
-    //div.setAttribute('oncontextmenu', 'event.preventDefault();')
-
     elements.grid.appendChild(div)
     div.id = i
 
-    // dynamically size the grids using the width
+    // Dynamically size the grids using the width
     div.style.width = `${100 / width}%`
     div.style.height = `${100 / width}%`
   }
@@ -66,7 +63,6 @@ const flippedTile = (e) => {
     addMinesToBoard()
     tilesNearbyMine()
 
-    // ! Test Timer
     isPlaying = true
     let counter = 1
     elapsedTimeID = setInterval(() => {
@@ -78,17 +74,14 @@ const flippedTile = (e) => {
   loopingSweeper(eightTilesArray)
   sweepCurrentTile(currentTileIndex)
 
-  // Create an array of all tiles with sweeped attributes
+  // Create an array of all tiles with sweeped attributes (tile has been checked / uncovered)
   const sweepedTilesArray = divArray.filter(tile => tile.hasAttribute('data-sweeped'))
   checkWin(sweepedTilesArray)
-  //console.log('SweepedTilesArray: ', sweepedTilesArray)
 }
 
 const getSurroundingTiles = (currentTileIndex) => {
-
   eightTilesArray = []
-
-  // surrounding tiles
+  // Calculate surrounding tile positions (relative)
   const upRight = currentTileIndex - width + 1
   const right = currentTileIndex + 1
   const downRight = currentTileIndex + width + 1
@@ -98,10 +91,12 @@ const getSurroundingTiles = (currentTileIndex) => {
   const left = currentTileIndex - 1
   const upLeft = currentTileIndex - width - 1
 
+  // Check whether the tile is in the first column or the last
   const isFirstColumn = (currentTileIndex % width === 0)
   const isLastColumn = (currentTileIndex % width === width - 1)
 
-  //grab the indexes of all the tiles surrounding the currentTileIndex
+  // Grab the indexes of all the tiles surrounding the currentTileIndex
+  // Add these indexes to the eightTilesArray
   if (divArray[up] ) {
     eightTilesArray.push(Number(divArray[up].id))
   }
@@ -128,7 +123,6 @@ const getSurroundingTiles = (currentTileIndex) => {
   }
 
   return eightTilesArray
-
 }
 
 const generateMines = (currentTileIndex, eightTilesArray) => {
@@ -150,10 +144,8 @@ const addMinesToBoard = () => {
 }
 
 const tilesNearbyMine = () => {
-
   mines.forEach(mine => {
-
-    // surrounding tiles
+    // Calculate nearby mines positions (relative)
     const upRight = mine - width + 1
     const right = mine + 1
     const downRight = mine + width + 1
@@ -163,6 +155,7 @@ const tilesNearbyMine = () => {
     const left = mine - 1
     const upLeft = mine - width - 1
 
+    // Check whether a mine is in the first column or the last
     const isFirstColumn = (mine % width === 0)
     const isLastColumn = (mine % width === width - 1)
 
@@ -220,6 +213,12 @@ const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
     //   return
     // }
 
+    /*
+      1. If a tile has a number, reveal and then return
+      2. If a tile has a mine, return
+      3. If the tile is on the edge, reveal and then return
+    */
+
     // * Check current tile and surrounding tiles are empty. If so, reveal
     if (
       !divArray[currentTileIndex].classList.contains('mine') && 
@@ -255,32 +254,24 @@ const sweepSurroundingTiles = (currentTileIndex, eightTilesArray) => {
     if (tile < width && tile >= 0 || (tile > (width ** width - width - 1) && tile < width ** width)) {
       return
     }
-    
-    // reveal number, return
-    // mines, return
-    // border / edge, return
-
   })
 }
 
 const loopingSweeper = (eightTilesArray) => {
-
   // * If the current tile is a number, return
   if (Number(divArray[currentTileIndex].attributes['data-counter'].value) > 0) {
     return
   }
   
-  //console.log('Eight Tiles Array: ', eightTilesArray)
+  // Call getSurroundingTiles with a new index to return a new eightTilesArray
+  // Then call sweepSurroundingTiles with this new index and new eightTilesArray
   eightTilesArray.forEach(tile => {
     const newIndex = Number(divArray[tile].id)
-    //console.log('New Index: ', newIndex)
     sweepSurroundingTiles(newIndex, getSurroundingTiles(newIndex))
   })
-  // call getSurroundingTiles with a new index to return a new eightTilesArray
-  // then call sweepSurroundingTiles with this new index and new eightTilesArray
 }
 
-// If a mine is clicked, diaplay an alert, display all the tile counters and display all the mines
+// If a mine is clicked, display the modal, all the tile counters and all the mines
 const gameOver = () => {
   // Display all the tiles
   divArray.forEach(tile => {
@@ -321,16 +312,19 @@ const checkWin = (sweepedTilesArray) => {
   }
 }
 
+// Hide the modal when the 'X' is clicked
 elements.modalSpan.addEventListener('click', () => {
   elements.modal.style.display = 'none'
 })
 
+// Hide the modal by default
 window.addEventListener('click', (e) => {
   if (e.target === elements.modal) {
     elements.modal.style.display = 'none'
   }
 })
 
+// Refresh when 'Play Again' is clicked to reset the game
 elements.modalButton.addEventListener('click', () => {
   location.reload()
 })
