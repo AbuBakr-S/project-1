@@ -33,7 +33,7 @@ Below I’ve highlighted the main components of the game.
 1. Generate a Board (Grid)
 With future proofing in mind for various difficulty levels, I used the width to relatively calculate the grid size. 
 
-[image:D0C89E3B-73FF-40E0-B8F2-FB749B007F38-3014-0000013791958752/Screenshot 2021-06-29 at 23.47.59.png]
+![minesweeper board](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2023.47.59.png)
 
 
 2. Game Start Condition
