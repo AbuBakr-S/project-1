@@ -39,7 +39,7 @@ generateBoard()
 
 const flag = (e) => {
   //Add a flag if a tile is right clicked
-  // ! The image is not currently being displayed. Only the background colour is changing
+
   if (e.button === 2 && divArray[currentTileIndex] && !e.target.classList.contains('sweeped')) {
     divArray[Number(e.target.id)].classList.toggle('flag')
   }
