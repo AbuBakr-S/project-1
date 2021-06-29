@@ -45,10 +45,10 @@ For a seamless start to a widely recognised game, I wanted the first click on an
 * Mine is not in a Surrounding Tile of the First Flipped Tile
  
 *generate mines*
-[image:C711FDF4-5555-4EBE-9B83-A118ACB33294-3014-00000121979B6AF5/Screenshot 2021-06-29 at 19.06.28.png]
+![generate mines](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2019.06.28.png)
 
 *add mines to board*
-[image:D1207A03-E46B-4A61-B99D-C59E7320E4AF-3014-000001214FC0FECE/Screenshot 2021-06-29 at 19.05.28.png]
+![add mines to board](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2019.05.28.png)
 
 4. Surrounding Tiles and Boundary Logic
 
@@ -57,37 +57,37 @@ To check all valid surrounding tiles, I gave each tile an index and calculated t
 I calculated the first and last column boundaries as well to inform which of the surrounding tiles should be checked. I avoided having to check the top and bottom rows by checking for truthy values in the conditions for `divArray[<positon>]` values. 
 
 *Surrounding Tiles*
-[image:1BA25785-4EA0-4792-BF86-BEFBEDF6423D-3014-000001205AD60A3E/Screenshot 2021-06-29 at 19.02.42.png]
+![surrounding tiles](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2019.02.42.png)
 
 *Check for Safe Tiles*
-[image:C22DFB66-C599-4299-A73B-2CB61366B289-3014-0000013038AB419C/Screenshot 2021-06-29 at 23.25.44.png]
+![check for safe tiles](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2023.25.44.png)
 
 
 5. Aggregate Total Number of Surrounding Mines and Populate Surrounding Tiles
 
 To display the aggregated surrounding mines counter, I added a data attribute to each cell, initialised it to 0 on a new board and incremented its value by 1 if a mine was present.
 
-[image:E366EAD8-7478-4BED-BF72-5CE36A1BBDA1-3014-00000122E48B81DB/Screenshot 2021-06-29 at 19.10.20.png]
+![total surrounding mines](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2019.10.20.png)
 
 6. Flag a Suspected Mine
 
 Another feature of the game is to flag a tile that you are confident is concealing a mine by right clicking on it. The first solution I found for this was to use the `contextmenu` and repurpose it however I didn’t want to override this so I used the `MouseEvent.button` instead.  This button has 5 possible values, of which 2 is the secondary button, usually the right click. 
 
-[image:88883EE1-C6BD-4A3E-AB9B-0F3A467B6446-3014-000001337A53EF2B/Screenshot 2021-06-29 at 23.36.09.png]
+![right click flag](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2023.36.09.png)
 
-[image:A9382222-3FB7-48B5-9B9B-6B7D6F2F0A60-3014-000001383998E003/Screenshot 2021-06-29 at 23.49.52.png]
+![flag on board](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2023.49.52.png)
 
 
 7. Recursion
 Unfortunately I couldn’t get this to work…
 
 *Sweep Safe Surrounding Tiles*
-[image:C04DEADA-5676-4E5F-AD35-BEEA450AD95C-3014-000001312A9C3DD6/Screenshot 2021-06-29 at 23.29.11.png]
+![looping sweeper](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2023.29.11.png)
 
 8. Game End
 
 *Clicked on a Mine - Game Over*
-[image:F9FEA73D-A079-45BD-A07B-CE448943DB3B-3014-00000139C97B4DF9/Screenshot 2021-06-29 at 23.54.07.png]
+![game over](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2023.54.07.png)
 
 *Cleared the Board and Swept all Mines - Win*
-[image:632148BB-1B4C-417D-86C8-0F96BDA0834B-3014-00000139C97CDEFE/Screenshot 2021-06-29 at 23.54.48.png]
+![winner](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2023.54.48.png)
