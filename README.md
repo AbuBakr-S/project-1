@@ -18,7 +18,7 @@ For those that might not have heard of it, Minesweeper is a classic Windows PC g
 * Design logic for winning & visually display which player won
 * Include separate HTML / CSS / JavaScript files
 * Stick with KISS (Keep It Simple Stupid) and DRY (Don’t Repeat Yourself) principles
-* Use Javascript for DOM manipulation
+* Use JavaScript for DOM manipulation
 * Deploy your game online, where the rest of the world can access it
 * Use semantic markup for HTML and CSS (adhere to best practices)
 
@@ -33,7 +33,7 @@ Below I’ve highlighted the main components of the game.
 1. Generate a Board (Grid)
 With future proofing in mind for various difficulty levels, I used the width to relatively calculate the grid size. 
 
-![minesweeper board](https://github.com/AbuBakr-S/project-1/blob/main/assets/Screenshot%202021-06-29%20at%2023.47.59.png)
+![minesweeper board](https://github.com/AbuBakr-S/project-1/blob/main/assets/grid.png)
 
 
 2. Game Start Condition
