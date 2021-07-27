@@ -274,6 +274,9 @@ const flag = (e) => {
 7. **Game end**
 
 *Clicked on a mine - Game over*
+
+<img src="assets/lose-modal.png" alt="Game Over" width="60%" height="auto">
+
 ```
 // If a mine is clicked, display the modal, all the tile counters and all the mines
 const gameOver = () => {
@@ -300,6 +303,9 @@ const gameOver = () => {
 ```
 
 *Cleared the board and swept all mines - Win*
+
+<img src="assets/win-modal.png" alt="Win" width="60%" height="auto">
+
 ```
 // If all the tiles, minus the mines, have been swept, the player wins
 // ? Expecting this to return true when the player has won
@@ -332,7 +338,6 @@ I had a lot of problems with trying to implement the recursive sweeping function
 
 * If all surrounding tiles have a `data-sweeped` value of true, stop looping 
 
-
 However I couldn't get this to work. The plan was to call the `sweepSurroundingTiles` function as many times as necessary. In an effort to make the game workable I decided to use a workaround which had a limitation of only looping twice - once around the flipped tile and then again around each of the 8 surrounding tiles, sweeping up to 25 tiles at a time. This is the current implementation of the game.
 
 *Sweep safe surrounding tiles*
@@ -351,6 +356,19 @@ const loopingSweeper = (eightTilesArray) => {
   })
 }
 ```
+
+### Bugs
+As a result of the aforementioned sweeping limitation workaround, currently all adjacent empyty tiles are not swept from the starting point of the red **X**. Instead, they only span up to 2 rows and 2 columns on either side. 
+
+*Minesweeper Sweeping Limitation*
+
+<img src="assets/sweeping-limitation.png" alt="Sweeping Limitation" width="60%" height="auto">
+
+Ideally, with recursion, the uncovering of empty tiles or sweeping would continue until boundaries or numbered tiles are met.
+
+*Working Recursion*
+
+<img src="assets/google-minesweeper-recursion.png" alt="Sweeping Limitation" width="60%" height="auto">
 
 ### Key Learnings / Reflection
 * Being better able to recognise event sequences in applications
