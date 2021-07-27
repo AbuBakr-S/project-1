@@ -31,7 +31,7 @@ For those that might not have heard of it, Minesweeper is a classic Windows PC g
 You can find this deployed [here](https://abubakr-s.github.io/project-1/).
 
 ### Planning
-My approach to planning this project was to find an online version of the game, analyse it as I played it through till the end and break down the order of events. I also went through the rules to make sure I didn't miss anything out. I then took note of these and started to group key areas together, which I later used to pseudocode. When it came to the sweeping functionality, whiteboaring helped me with the visualisation.
+My approach to planning this project was to find an online version of the game, analyse it as I played it through till the end and break down the order of events. I also went through the rules to make sure I didn't miss anything out. I then took note of these and started to group key areas together, which I later used to pseudocode. When it came to the sweeping functionality, whiteboarding helped me with the visualisation.
 
 #### Start and End Conditions
 * Game Starts when the player clicks the first tile (any)
@@ -74,7 +74,7 @@ My approach to planning this project was to find an online version of the game, 
 ```
 ##### Sweep Tiles Function: Run every time you clear a tile
 
-*White-boaring Sweeping Logic*
+*Whiteboarding Sweeping Logic*
 
 <img src="assets/plan-sweep-logic.png" alt="Whiteboarding Sweeping Functionality" width="60%" height="auto">
 
@@ -123,7 +123,7 @@ For a seamless start to a widely recognised game, I wanted the first click on an
 
 I started by generating random grid position numbers which I later used as indexes for the placed mines. This required the following conditions:
 * Ensure that a mine does not already exist at the given random index to avoid duplication
-* Ensure that the first flipped tile of the game is a safe tile by avoiding the `currentTileIndex` to avoid an immidiate *Game Over* condition
+* Ensure that the first flipped tile of the game is a safe tile by avoiding the `currentTileIndex` to avoid an immediate *Game Over* condition
 * Ensure that a mine is not placed on a tile surrounding the first flipped tile to keep the area clear
  
 *Generate mines*
