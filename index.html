@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minesweeper</title>
+  <title>Minesweeper V2</title>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="main.css">
@@ -14,8 +14,8 @@
   <h1>Minesweeper</h1>
   <p>Elapsed Time: <span id="elapsed-time"></span></p>
 
-<!-- The Modal -->
-<div id="myModal" class="modal">
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
 
   <!-- Modal content -->
   <div class="modal-content">
@@ -27,7 +27,16 @@
 
 </div>
 
-  <div class="grid"></div>
-  <div>Remaining: <span id='remaining-flags'></span></div>
+  <div class="container">
+    <div class="grid"></div>
+    <div>Remaining Flags: <span id='remaining-flags'></span></div>
+    <label for="width">Grid Size:</label>
+    <select name="width" id="width">
+      <option value="10">5</option>
+      <option value="15">10</option>
+      <option value="20">15</option>
+      <option value="20">20</option>
+    </select>
+  </div>
 </body>
 </html>
