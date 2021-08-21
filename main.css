@@ -35,7 +35,12 @@ h1 {
 }
 
 .checked {
-  background-color: #DDA15E;
+  background-color: #DDA15E !important;
+}
+
+/* Temp - Remove */
+.mine {
+  background-color: red;
 }
 
 .one {

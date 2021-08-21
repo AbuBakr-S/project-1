@@ -10,37 +10,26 @@ const elements = {
 
 const grid = document.querySelector('.grid')
 const width = 10
-const mines = width
-const tiles = []
-const remainingFlags = document.querySelector('#remaining-flags')
-let flags = 0
-let isGameOver = false
-let elapsedTimeID
+const tiles = []  // array of every board tile
+const mines = []
+let isPlaying = false
+// let eightTilesArray = []
 let numberOfClicks = 0
+let elapsedTimeID
 
 const generateBoard = () => {
-
-  remainingFlags.innerHTML = mines
-
-  //* get a shuffled game array with random mines
-  // create a game array of 'mine' and 'valid' strings
-  const minesArray = Array(mines).fill('mine')
-  const emptyArray = Array(width * width - mines).fill('valid')
-  const gameArray = emptyArray.concat(minesArray)
-  // pass in a compare function - randomly return: < 0, 0 or > 0 for every pair that gets compared
-  const shuffledArray = gameArray.sort(() => Math.random() - 0.5)
-
-  //* create the grid tiles and add to grid
-  for (let i = 0; i < width * width; i++) {
+  for (let i = 0; i < width ** 2; i++) {
     const tile = document.createElement('div')
+    tile.setAttribute('id', i)
+    // add data attribute for nearby mines counter
+    tile.setAttribute('data-counter', 0)
+    // add data attribute to track whether a tile has been sweeped 
+    tile.setAttribute('data-sweeped', false)
+    grid.appendChild(tile)
     // dynamically size the grids using the width
     tile.style.width = `${100 / width}%`
     tile.style.height = `${100 / width}%`
 
-    tile.setAttribute('id', i)
-    // add 'mine' or 'valid' as class names to each tile
-    tile.classList.add(shuffledArray[i])
-    grid.appendChild(tile)
     tiles.push(tile)
 
     // when a tile is left clicked, call the click function on the current tile
@@ -54,103 +43,123 @@ const generateBoard = () => {
         }, 1000)
       }
     })
+  }
 
-    // when a tile is right clicked, add a flag
-    tile.oncontextmenu = (e) => {
-      e.preventDefault()
-      addFlag(tile)
+  //* randomly generate an array of mine indexes
+  while (mines.length < width) {
+    const randomIndex = Math.floor(Math.random() * (width ** 2))
+    if (!mines.includes(randomIndex)) {
+      mines.push(randomIndex)
     }
   }
 
-  // add numbers
-  for (let i = 0; i < tiles.length; i++) {
-    let total = 0
-    const isFirstColumn = (i % width === 0)
-    const isRightColumn = (i % width === width - 1)
+  //* if a tile has a mine, add the mine class and remove the 'data-sweeped' attribute
+  mines.forEach(mine => {
+    tiles[mine].classList.add('mine')
+    tiles[mine].attributes.removeNamedItem('data-sweeped')
 
+    // Calculate nearby mines positions (relative)
+    const up = mine - width
+    const upRight = mine - width + 1
+    const right = mine + 1
+    const downRight = mine + width + 1
+    const down = mine + width
+    const downLeft = mine + width - 1
+    const left = mine - 1
+    const upLeft = mine - width - 1
 
-    // check all surrounding 8 tiles and total nearby
-    if (tiles[i].classList.contains('valid')) {
-      // check north
-      if (i > width && tiles[i - width].classList.contains('mine')) total++
-      // check north east 
-      if (i > width - 1 && !isRightColumn && tiles[i + 1 - width].classList.contains('mine')) total++
-      // check east
-      if (i < width * width - 1 && !isRightColumn && tiles[i + 1].classList.contains('mine')) total++
-      // check south east
-      if (i < width * width - width - 2 && !isRightColumn && tiles[i + 1 + width].classList.contains('mine')) total++
-      // check south
-      if (i < width * width - width - 1 && tiles[i + width].classList.contains('mine')) total++
-      // check south west
-      if (i < width * width - width && !isFirstColumn && tiles[i - 1 + width].classList.contains('mine')) total++
-      // check west
-      if (i > 0 && !isFirstColumn && tiles[i - 1].classList.contains('mine')) total++
-      // check north west
-      if (i > width + 1 && !isFirstColumn && tiles[i - 1 - width].classList.contains('mine')) total++
-      // add number of surrounding mines to tile
-      tiles[i].setAttribute('data-counter', total)
+    // check whether a mine is in the first column or the last
+    const isFirstColumn = (mine % width === 0)
+    const isLastColumn = (mine % width === width - 1)
+ 
+    //* aggregate mine indicators
+    if (tiles[up] && !tiles[up].classList.contains('mine')) {
+      tiles[up].attributes['data-counter'].value++
     }
-  }
+    if (tiles[upRight] && !isLastColumn && !tiles[upRight].classList.contains('mine')) {
+      tiles[upRight].attributes['data-counter'].value++
+    }
+    if (tiles[right] && !isLastColumn && !tiles[right].classList.contains('mine')) {
+      tiles[right].attributes['data-counter'].value++
+    }
+    if (tiles[downRight] && !isLastColumn && !tiles[downRight].classList.contains('mine')) {
+      tiles[downRight].attributes['data-counter'].value++
+    }
+    if (tiles[down] && !tiles[down].classList.contains('mine')) {
+      tiles[down].attributes['data-counter'].value++
+    }
+    if (tiles[downLeft] && !isFirstColumn && !tiles[downLeft].classList.contains('mine')) {
+      tiles[downLeft].attributes['data-counter'].value++
+    }
+    if (tiles[left] && !isFirstColumn && !tiles[left].classList.contains('mine')) {
+      tiles[left].attributes['data-counter'].value++
+    }
+    if (tiles[upLeft] && !isFirstColumn && !tiles[upLeft].classList.contains('mine')) {
+      tiles[upLeft].attributes['data-counter'].value++
+    }
+  })
+
+  
+
+  //? display th mine counters
+  // tiles.forEach(tile => {
+  //   tile.innerHTML = tile.attributes['data-counter'].value
+  // })
+
 }
-
 
 generateBoard()
 
 
-// add flag
-const addFlag = (tile) => {
-  if (isGameOver) return
-  if (!tile.classList.contains('checked') && (flags < mines)) {
-    if (!tile.classList.contains('flag')) {
-      tile.classList.add('flag')
-      tile.style.backgroundImage = 'url(./assets/flag.svg)'
-      tile.style.backgroundSize = 'cover'
-      flags++
-      remainingFlags.innerHTML = mines - flags
-      checkForWin()
-    } else {
-      tile.classList.remove('flag')
-      tile.style.backgroundImage = ''
-      flags--
-      remainingFlags.innerHTML = mines - flags
-    }
-  }
-}
+// const checkSurroundingTiles = (tile) => {
+//   eightTilesArray = []
+//   // Calculate surrounding tile positions (relative)
+//   const up = tile - width
+//   const upRight = tile - width + 1
+//   const right = tile + 1
+//   const downRight = tile + width + 1
+//   const down = tile + width
+//   const downLeft = tile + width - 1
+//   const left = tile - 1
+//   const upLeft = tile - width - 1
 
+//   // Check whether the tile is in the first column or the last
+//   const isFirstColumn = (tile % width === 0)
+//   const isLastColumn = (tile % width === width - 1)
 
-// click on tile actions
-const click = (tile) => {
-  const currentId = tile.id
-  // handle single scenarios (don't repeat recursively)
-  if (isGameOver) return
-  if (tile.classList.contains('checked') || tile.classList.contains('flag')) return
-  if (tile.classList.contains('mine')) {
-    gameOver(tile)
-  } else {
-    // display the total surrounding mines on tile
-    //! total is a string
-    const total = tile.getAttribute('data-counter')
-    if (total != 0) {
-      tile.classList.add('checked')
-      tile.innerHTML = total
-      // style individual mine indicators
-      if (total == 1) tile.classList.add('one')
-      if (total == 2) tile.classList.add('two')
-      if (total == 3) tile.classList.add('three')
-      if (total == 4) tile.classList.add('four')
-      return
-    }
+//   // Grab the indexes of all the tiles surrounding the tile
+//   // Add these indexes to the eightTilesArray
+//   if (tiles[up]) {
+//     eightTilesArray.push(Number(tiles[up].id))
+//   }
+//   if (tiles[upRight] && !isLastColumn) {
+//     eightTilesArray.push(Number(tiles[upRight].id))
+//   }
+//   if (tiles[right] && !isLastColumn) {
+//     eightTilesArray.push(Number(tiles[right].id))
+//   }
+//   if (tiles[downRight] && !isLastColumn) {
+//     eightTilesArray.push(Number(tiles[downRight].id))
+//   }
+//   if (tiles[down]) {
+//     eightTilesArray.push(Number(tiles[down].id))
+//   }
+//   if (tiles[downLeft] && !isFirstColumn) {
+//     eightTilesArray.push(Number(tiles[downLeft].id))
+//   }
+//   if (tiles[left] && !isFirstColumn) {
+//     eightTilesArray.push(Number(tiles[left].id))
+//   }
+//   if (tiles[upLeft] && !isFirstColumn) {
+//     eightTilesArray.push(Number(tiles[upLeft].id))
+//   }
 
-    // recursive sweep
-    checkSquare(tile, currentId)
-  }
-  // check if tile does not contain a mine and the check after it does not equal 0
-  tile.classList.add('checked')
-}
+//   return eightTilesArray
+// }
 
 
 // check surrounding tiles once tile is clicked
-const checkSquare = (tile, currentId) => {
+const checkTile = (tile, currentId) => {
   const isFirstColumn = (currentId % width === 0)
   const isRightColumn = (currentId % width === width - 1)
   setTimeout(() => {
@@ -216,9 +225,42 @@ const checkSquare = (tile, currentId) => {
 }
 
 
+// click on tile actions
+const click = (tile) => {
+  const currentId = tile.id
+  // handle single scenarios (don't repeat recursively)
+  if (isPlaying) return
+  if (tile.attributes['data-counter'].value === 0 || tile.classList.contains('flag')) return
+  if (tile.classList.contains('mine')) {
+    gameOver(tile)
+  } else {
+    // display the total surrounding mines on tile
+    //! total is a string
+    const total = tile.getAttribute('data-counter')
+    if (total != 0) {
+      tile.setAttribute('data-sweeped', true)
+      tile.innerHTML = total
+      // style individual mine indicators
+      if (total == 1) tile.classList.add('one')
+      if (total == 2) tile.classList.add('two')
+      if (total == 3) tile.classList.add('three')
+      if (total == 4) tile.classList.add('four')
+      return
+    }
+
+    // recursive sweep
+    checkTile(tile, currentId)
+  }
+  // check if tile does not contain a mine and the check after it does not equal 0
+  tile.setAttribute('data-sweeped', true)
+  tile.classList.add('checked')
+  checkForWin()
+}
+
 // game over
 const gameOver = (tile) => {
-  isGameOver = true
+  console.log(`Game Over! You hit a mine at tile: ${tile.id}`)
+  isPlaying = false
   clearInterval(elapsedTimeID)
   elements.elapsedTime.innerHTML = 0
   // display ALL the mines
@@ -237,26 +279,23 @@ const gameOver = (tile) => {
   elements.modal.style.display = 'block'
 }
 
-
 // check for win
 const checkForWin = () => {
-  let matches = 0
-  for (let i = 0; i < tiles.length; i++) {
-    if (tiles[i].classList.contains('flag') && tiles[i].classList.contains('mine')) {
-      matches++
-    }
-    if (matches === mines) {
-      isGameOver = true
-      clearInterval(elapsedTimeID)
-      document.querySelector('#elapsed-time').innerHTML = 0
-      // display modal
-      elements.modalBody1.innerHTML = 'YOU WIN!'
-      elements.modalBody2.innerHTML = 'Well done, you\'ve cleared all mines'
-      elements.modal.style.display = 'block'
-    }
+  
+  const sweepedTilesArray = tiles.filter(tile => tile.hasAttribute('data-sweeped'))
+  const isWinner = sweepedTilesArray.every(tile => {
+    return tile.attributes['data-sweeped'].value === 'true'
+  })   
+  if (isWinner) {
+    isPlaying = true
+    clearInterval(elapsedTimeID)
+    document.querySelector('#elapsed-time').innerHTML = 0
+    // display modal
+    elements.modalBody1.innerHTML = 'YOU WIN!'
+    elements.modalBody2.innerHTML = 'Well done, you\'ve cleared all mines'
+    elements.modal.style.display = 'block'
   }
 }
-
 
 // hide the modal when the 'X' is clicked
 elements.modalSpan.addEventListener('click', () => {
