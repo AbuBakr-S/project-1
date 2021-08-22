@@ -12,12 +12,16 @@ const grid = document.querySelector('.grid')
 const width = 10
 const tiles = []  // array of every board tile
 const mines = []
-let isPlaying = false
-// let eightTilesArray = []
+const remainingFlags = document.querySelector('#remaining-flags')
+let isPlaying = true
 let numberOfClicks = 0
 let elapsedTimeID
+let flags = 0
 
 const generateBoard = () => {
+
+  remainingFlags.innerHTML = width
+
   for (let i = 0; i < width ** 2; i++) {
     const tile = document.createElement('div')
     tile.setAttribute('id', i)
@@ -43,6 +47,13 @@ const generateBoard = () => {
         }, 1000)
       }
     })
+
+    // when a tile is right clicked, add a flag
+    tile.oncontextmenu = (e) => {
+      e.preventDefault()
+      addFlag(tile)
+    }
+
   }
 
   //* randomly generate an array of mine indexes
@@ -53,7 +64,7 @@ const generateBoard = () => {
     }
   }
 
-  //* if a tile has a mine, add the mine class and remove the 'data-sweeped' attribute
+  //* if a tile has a mine, add the 'mine' class and remove the 'data-sweeped' attribute
   mines.forEach(mine => {
     tiles[mine].classList.add('mine')
     tiles[mine].attributes.removeNamedItem('data-sweeped')
@@ -111,6 +122,62 @@ const generateBoard = () => {
 generateBoard()
 
 
+// add flag
+const addFlag = (tile) => {
+  if (!isPlaying) return
+  if (!tile.classList.contains('sweeped') && (flags < width)) {
+    if (!tile.classList.contains('flag')) {
+      tile.classList.add('flag')
+      tile.style.backgroundImage = 'url(./assets/flag.svg)'
+      tile.style.backgroundSize = 'cover'
+      flags++
+      remainingFlags.innerHTML = width - flags
+      checkForWin()
+    } else {
+      tile.classList.remove('flag')
+      tile.style.backgroundImage = ''
+      flags--
+      remainingFlags.innerHTML = width - flags
+    }
+  }
+}
+
+
+// click on tile actions
+const click = (tile) => {
+  const currentId = tile.id
+  // handle single scenarios (don't repeat recursively)
+  if (!isPlaying) return
+  if (tile.classList.contains('checked') || tile.classList.contains('flag')) return
+  // if (!tile.classList.contains('mine') && Number(tile.attributes['data-counter'].value) > 0) return
+  if (!tile.classList.contains('mine') && tile.attributes['data-sweeped'].value === true) return
+  if (tile.classList.contains('mine')) {
+    gameOver(tile)
+  } else {
+    // display the total surrounding mines on tile
+    //! total is a string
+    const total = tile.getAttribute('data-counter')
+    // ! ##### INFINITE LOOP #####
+    if (total != 0) {
+      tile.setAttribute('data-sweeped', true)
+      tile.innerHTML = total
+      // style individual mine indicators
+      if (total == 1) tile.classList.add('one')
+      if (total == 2) tile.classList.add('two')
+      if (total == 3) tile.classList.add('three')
+      if (total == 4) tile.classList.add('four')
+      return
+    }
+
+    // recursive sweep
+    checkTile(tile, currentId)
+    // check if tile does not contain a mine and the check after it does not equal 0
+    // tile.setAttribute('data-sweeped', true)
+    tile.classList.add('checked')
+    checkForWin()
+  }
+}
+
 // const checkSurroundingTiles = (tile) => {
 //   eightTilesArray = []
 //   // Calculate surrounding tile positions (relative)
@@ -163,6 +230,7 @@ const checkTile = (tile, currentId) => {
   const isFirstColumn = (currentId % width === 0)
   const isRightColumn = (currentId % width === width - 1)
   setTimeout(() => {
+    console.log('sweep')
     // check north
     if (currentId > width) {
       const newId = tiles[parseInt(currentId - width)].id
@@ -224,38 +292,6 @@ const checkTile = (tile, currentId) => {
   }, 10)
 }
 
-
-// click on tile actions
-const click = (tile) => {
-  const currentId = tile.id
-  // handle single scenarios (don't repeat recursively)
-  if (isPlaying) return
-  if (tile.attributes['data-counter'].value === 0 || tile.classList.contains('flag')) return
-  if (tile.classList.contains('mine')) {
-    gameOver(tile)
-  } else {
-    // display the total surrounding mines on tile
-    //! total is a string
-    const total = tile.getAttribute('data-counter')
-    if (total != 0) {
-      tile.setAttribute('data-sweeped', true)
-      tile.innerHTML = total
-      // style individual mine indicators
-      if (total == 1) tile.classList.add('one')
-      if (total == 2) tile.classList.add('two')
-      if (total == 3) tile.classList.add('three')
-      if (total == 4) tile.classList.add('four')
-      return
-    }
-
-    // recursive sweep
-    checkTile(tile, currentId)
-  }
-  // check if tile does not contain a mine and the check after it does not equal 0
-  tile.setAttribute('data-sweeped', true)
-  tile.classList.add('checked')
-  checkForWin()
-}
 
 // game over
 const gameOver = (tile) => {
