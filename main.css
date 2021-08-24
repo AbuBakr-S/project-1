@@ -39,19 +39,23 @@ h1 {
 }
 
 .one {
-  color: #830202;
+  color: #600707;
+  background-color: #bdb78d;
 }
 
 .two {
-  color: #005085;
+  color: #0c3d5e;
+  background-color: #bdb78d;
 }
 
 .three {
-  color: #008002;
+  color: #0a4b08;
+  background-color: #bdb78d;
 }
 
 .four{
   color: #720088;
+  background-color: #bdb78d;
 }
 
 .flag {
