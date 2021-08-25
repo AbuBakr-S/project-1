@@ -21,7 +21,8 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   background-color: rgba(96, 108, 56, 1);
-  border: 5px solid rgb(40, 54, 24);
+  outline: 5px solid rgb(40, 54, 24);
+  box-sizing: border-box;
   font-size: 20px;
   font-weight: bold;
 }
