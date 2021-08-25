@@ -115,6 +115,6 @@ h1 {
   outline-color: rgb(254, 250, 224);
 }
 
-#elapsed-time {
+#elapsed-time, #remaining-flags {
   color: rgb(193, 19, 86)
 }
