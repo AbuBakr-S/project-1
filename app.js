@@ -108,19 +108,25 @@ generateBoard()
 // add flag
 const addFlag = (tile) => {
   if (!isPlaying) return
-  if (!tile.classList.contains('sweeped') && (flags < width)) {
-    if (!tile.classList.contains('flag')) {
-      tile.classList.add('flag')
-      tile.style.backgroundImage = 'url(./assets/flag.svg)'
-      tile.style.backgroundSize = 'cover'
-      flags++
-      remainingFlags.innerHTML = width - flags
-      checkForWin()
-    } else {
-      tile.classList.remove('flag')
-      tile.style.backgroundImage = ''
-      flags--
-      remainingFlags.innerHTML = width - flags
+  if (tile.classList.contains('checked')) return
+  // if the tile is an uncovered numbered tile, don't add a flag
+  if (!tile.classList.contains('mine') && tile.attributes['data-sweeped'].value === 'true') return 
+
+  if (tile.classList.contains('mine') || tile.attributes['data-sweeped'].value === 'false') {
+    if (!tile.classList.contains('sweeped') && (flags < width)) {
+      if (!tile.classList.contains('flag')) {
+        tile.classList.add('flag')
+        tile.style.backgroundImage = 'url(./assets/flag.svg)'
+        tile.style.backgroundSize = 'cover'
+        flags++
+        remainingFlags.innerHTML = width - flags
+        checkForWin()
+      } else {
+        tile.classList.remove('flag')
+        tile.style.backgroundImage = ''
+        flags--
+        remainingFlags.innerHTML = width - flags
+      }
     }
   }
 }
