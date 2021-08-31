@@ -111,6 +111,8 @@ const addFlag = (tile) => {
   if (tile.classList.contains('checked')) return
   // if the tile is an uncovered numbered tile, don't add a flag
   if (!tile.classList.contains('mine') && tile.attributes['data-sweeped'].value === 'true') return 
+  // only add a flag once a tile has been uncovered
+  if (numberOfClicks === 0) return
 
   if (tile.classList.contains('mine') || tile.attributes['data-sweeped'].value === 'false') {
     if (!tile.classList.contains('sweeped') && (flags < width)) {
