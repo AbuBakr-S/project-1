@@ -140,15 +140,13 @@ const click = (tile) => {
   // handle single scenarios (don't repeat recursively)
   if (!isPlaying) return
   if (tile.classList.contains('checked') || tile.classList.contains('flag')) return
-  // if (!tile.classList.contains('mine') && Number(tile.attributes['data-counter'].value) > 0) return
-  if (!tile.classList.contains('mine') && tile.attributes['data-sweeped'].value === true) return
+  if (!tile.classList.contains('mine') && tile.attributes['data-sweeped'].value === 'true') return
   if (tile.classList.contains('mine')) {
     gameOver()
   } else {
     // display the total surrounding mines on tile
     //! total is a string
     const total = tile.getAttribute('data-counter')
-    // ! ##### INFINITE LOOP #####
     if (total != 0) {
       tile.setAttribute('data-sweeped', true)
       tile.innerHTML = total
@@ -173,65 +171,57 @@ const click = (tile) => {
 // check surrounding tiles once tile is clicked
 const checkTile = (tile, currentId) => {
   const isFirstColumn = (currentId % width === 0)
-  const isRightColumn = (currentId % width === width - 1)
+  const isLastColumn = (currentId % width === width - 1)
   setTimeout(() => {
     // check north
     if (currentId > width) {
       const newId = tiles[parseInt(currentId - width)].id
-      //const newId = parseInt(currentId) -width   ....refactor
-      const newSquare = document.getElementById(newId)
-      click(newSquare)
+      const newTile = document.getElementById(newId)
+      click(newTile)
     }
     // check north east
-    if (currentId > width - 1 && !isRightColumn) {
+    if (currentId > width - 1 && !isLastColumn) {
       const newId = tiles[parseInt(currentId) + 1 - width].id
-      //const newId = parseInt(currentId) +1 -width   ....refactor
-      const newSquare = document.getElementById(newId)
-      click(newSquare)
+      const newTile = document.getElementById(newId)
+      click(newTile)
     }
     // check east
-    if (currentId < width * width - 1 && !isRightColumn) {
+    if (currentId < width * width - 1 && !isLastColumn) {
       const newId = tiles[parseInt(currentId) + 1].id
-      //const newId = parseInt(currentId) +1   ....refactor
-      const newSquare = document.getElementById(newId)
-      click(newSquare)
+      const newTile = document.getElementById(newId)
+      click(newTile)
     }
     // check south east
-    if (currentId < width * width - width - 2 && !isRightColumn) {
+    if (currentId < width * width - width - 2 && !isLastColumn) {
       const newId = tiles[parseInt(currentId) + 1 + width].id
-      //const newId = parseInt(currentId) +1 +width   ....refactor
-      const newSquare = document.getElementById(newId)
-      click(newSquare)
+      const newTile = document.getElementById(newId)
+      click(newTile)
     }
     // check south
     if (currentId < width * width - width - 1) {
       const newId = tiles[parseInt(currentId) + width].id
-      //const newId = parseInt(currentId) +width   ....refactor
-      const newSquare = document.getElementById(newId)
-      click(newSquare)
+      const newTile = document.getElementById(newId)
+      click(newTile)
     }
     // check south west
     if (currentId < width * width - width && !isFirstColumn) {
       const newId = tiles[parseInt(currentId) - 1 + width].id
-      //const newId = parseInt(currentId) -1 +width   ....refactor
-      const newSquare = document.getElementById(newId)
-      click(newSquare)
+      const newTile = document.getElementById(newId)
+      click(newTile)
     }
     // check west
     if (currentId > 0 && !isFirstColumn) {
       const newId = tiles[parseInt(currentId) - 1].id
-      //const newId = parseInt(currentId) - 1   ....refactor
-      const newSquare = document.getElementById(newId)
+      const newTile = document.getElementById(newId)
       // pass the new tile to the click function to be checked again
       // if it passes, this will repeat until it stops
-      click(newSquare)
+      click(newTile)
     }
     // check north west
     if (currentId > width + 1 && !isFirstColumn) {
       const newId = tiles[parseInt(currentId) - 1 - width].id
-      //const newId = parseInt(currentId) -1 -width   ....refactor
-      const newSquare = document.getElementById(newId)
-      click(newSquare)
+      const newTile = document.getElementById(newId)
+      click(newTile)
     }
   }, 10)
 }
