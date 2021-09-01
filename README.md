@@ -88,7 +88,8 @@ The aim of this functionality was to sweep all surrounding tiles every time a ti
 
 *Whiteboarding Sweeping Logic*
 
-<img src=“assets/plan-sweep-logic.png” alt=“Whiteboarding Sweeping Functionality” width="60%" height="auto">
+<img src="assets/plan-sweep-logic.png" alt="Whiteboarding Sweeping Functionality" width="60%" height="auto">
+
 
 Locations:
 * North (U)
@@ -104,7 +105,7 @@ Analysis of an example game helped me identify some boundaries:
 
 *Google's Minesweeper Boundaries*
 
-<img src=“assets/google-minesweeper.png” alt=“Google’s Minesweeper Game” width=“40%” height="auto">  
+<img src="assets/google-minesweeper.png" alt="Google’s Minesweeper Game" width="40%" height="auto">  
 
 I realised that the number of surrounding tiles would differ across the grid, for example if a tile was in a corner or along an edge, so I factored that in as well. I wanted to use relative units to provide the flexibility for additional levels in the future. 
 
@@ -142,7 +143,7 @@ As mentioned above, with future proofing in mind for various difficulty levels, 
 
 *Generate board*
 
-<img src=“assets/grid.png” alt=“Minesweeper Grid” width=“60%” height=“auto">
+<img src="assets/grid.png" alt="Minesweeper Grid" width="60%" height="auto">
 
 
 2. **Game start condition**
@@ -289,14 +290,14 @@ const flag = (e) => {
 
 *Set flag*
 
-<img src=“assets/showcase.png” alt=“Display Flag” width=“60%” height=“auto”>
+<img src="assets/showcase.png" alt="Display Flag" width="60%" height="auto">
 
 
 7. **Game end**
 
 *Clicked on a mine - Game over*
 
-<img src=“assets/lose-modal.png” alt=“Game Over” width=“60%” height=“auto”>
+<img src="assets/lose-modal.png" alt="Game Over" width="60%" height="auto">
 
 ```
 // If a mine is clicked, display the modal, all the tile counters and all the mines
@@ -325,7 +326,7 @@ const gameOver = () => {
 
 *Cleared the board and swept all mines - Win*
 
-<img src=“assets/win-modal.png” alt=“Win” width=“60%” height=“auto”>
+<img src="assets/win-modal.png" alt="Win" width="60%" height="auto">
 
 ```
 // If all the tiles, minus the mines, have been swept, the player wins
@@ -385,13 +386,13 @@ As a result of the aforementioned sweeping limitation workaround, all adjacent e
 
 *Minesweeper Sweeping Limitation*
 
-<img src=“assets/sweeping-limitation.png” alt=“Sweeping Limitation” width=“60%” height=“auto”>
+<img src="assets/sweeping-limitation.png" alt="Sweeping Limitation" width="60%" height="auto">
 
 Ideally, with recursion, the uncovering of empty tiles or sweeping would have continued until boundaries or numbered tiles were met, like below:
 
 *Working Recursion*
 
-<img src=“assets/google-minesweeper-recursion.png” alt=“Sweeping Limitation” width=“60%” height=“auto”>
+<img src="assets/google-minesweeper-recursion.png" alt="Sweeping Limitation" width="60%" height="auto">
 
 ## Overcoming Recursion 
 Exit Conditions:
@@ -500,7 +501,7 @@ const checkTile = (tile, currentId) => {
 
 *Working recursion 🎉*
 
-<img src=“assets/recursion.png” alt=“Recursion” width=“60%” height=“auto”>
+<img src="assets/recursion.png" alt="Recursion" width="60%" height="auto">
 
 ## Bugs
 * Existing flags cannot be toggled once the number of flags reach the limit of 10
